@@ -1,5 +1,6 @@
 program check
-implicit none
+   use LightControl
+   implicit none
 
-print *, "Put some tests in here!"
+   print *, "Put some tests in here!"
 end program check
