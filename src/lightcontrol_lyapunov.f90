@@ -1,5 +1,4 @@
 submodule(lightcontrol) lightcontrol_lyapunov
-   use stdlib_linalg, only: outer_product
    implicit none(type, external)
 
    interface
@@ -60,17 +59,17 @@ contains
                   description="Dimensions of A and U are inconsistent.")
 
       call assert(assertion=any(job == ["x", "s", "b"]), &
-                  description="Invalid job. Needs to 'x', 's', or 'b'.")
+                  description="Invalid job. Needs to be 'x', 's', or 'b'.")
       call assert(assertion=any(op == ["n", "t", "c"]), &
                   description="Invalid op. Needs to be 'n', 't', or 'c'.")
 
       scale_ = optval(scale, 1.0_dp)
       call assert(assertion=(0.0_dp < scale_) .and. (scale_ <= 1.0_dp), &
-                  description="scale needs to be between 0 and 1.")
+                  description="scale needs to be between 0 (excluded) and 1 (included).")
 
       if (.not. factorized) then
          call assert(assertion=present(wr) .and. present(wi), &
-                     description="Both wr and wi need be passed if factorized = .false.")
+                     description="Both wr and wi need to be passed if factorized = .false.")
          call assert(assertion=size(wr) == n, &
                      description="Dimension of wr is inconsistent with A.")
          call assert(assertion=size(wi) == n, &
