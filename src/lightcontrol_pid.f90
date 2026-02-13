@@ -29,7 +29,7 @@ module lightcontrol_pid
    end type pid_controller
 
    interface pid_controller
-      pure module function initialize_pid_controller(kp, ki, kd, Ts, umin, umax) result(pid)
+      module function initialize_pid_controller(kp, ki, kd, Ts, umin, umax) result(pid)
          real(dp), optional, intent(in) :: kp
          real(dp), optional, intent(in) :: ki
          real(dp), optional, intent(in) :: kd
