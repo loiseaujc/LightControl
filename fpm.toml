@@ -32,10 +32,5 @@ FACE = {git="https://github.com/szaghi/FACE.git"}
 
 [[example]]
 
-name = "oscillator"
-source-dir = "example/oscillator"
-
-[[example]]
-
 name = "lyapunov"
 source-dir = "example/lyapunov"
