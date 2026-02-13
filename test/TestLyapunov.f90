@@ -40,6 +40,30 @@ contains
          call check(error, all_close(X, Xref, abs_tol=1e-4_dp))
          if (allocated(error)) return
       end block
+
+      !---------------------------------
+      !-----     SCIPY EXAMPLE     -----
+      !---------------------------------
+      block
+         real(dp) :: A(3, 3), Q(3, 3), X(3, 3), Xref(3, 3)
+         !> Problem's data.
+         A(1, :) = [-3.0_dp, -2.0_dp, 0.0_dp]
+         A(2, :) = [-1.0_dp, -1.0_dp, 0.0_dp]
+         A(3, :) = [0.0_dp, -5.0_dp, -1.0_dp]
+
+         Q = eye(3)
+
+         Xref(1, :) = [-0.75_dp, 0.875_dp, -3.75_dp]
+         Xref(2, :) = [0.875_dp, -1.375_dp, 5.3125_dp]
+         Xref(3, :) = [-3.75_dp, 5.3125_dp, -27.0625_dp]
+
+         !> Solve Lyapunov equation.
+         X = lyap(A, Q)
+
+         !> Check error.
+         call check(error, all_close(X, Xref, abs_tol=1e-4_dp))
+         if (allocated(error)) return
+      end block
    end subroutine test_lyap
 
    subroutine test_dlyap(error)
