@@ -4,8 +4,10 @@ module LightControl
    use stdlib_optval, only: optval
    implicit none
    private
-   public :: lyap, dlyap, solve_lyapunov
+   public :: lyap, dlyap, solve_lyapunov, lyapunov_workspace
    public :: ctrb_gramian, obs_gramian
+
+   public :: riccati_workspace
 
    !--------------------------------------
    !-----     LYAPUNOV EQUATIONS     -----
@@ -327,5 +329,16 @@ module LightControl
          !  - fact = "f": A has already been factorized.
          !  - fact = "n": A has not been factorized yet.
       end function lyapunov_workspace
+   end interface
+
+   !-------------------------------------
+   !-----     RICCATI EQUATIONS     -----
+   !-------------------------------------
+
+   interface
+      module integer function riccati_workspace(m, n, dico, jobg, jobl, fact) result(ldwork)
+         integer, intent(in) :: m, n
+         character(len=1), intent(in) :: dico, jobg, jobl, fact
+      end function riccati_workspace
    end interface
 end module LightControl
