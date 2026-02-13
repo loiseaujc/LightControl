@@ -10,7 +10,7 @@ submodule(lightcontrol) lightcontrol_lyapunov
          integer, intent(in)          :: n, lda, ldu, ldc, ldwork
          integer, intent(out)         :: iwork(*), info
          real(dp), intent(inout)      :: a(lda, *), u(ldu, *), c(ldc, *)
-         real(dp), intent(in)         :: scale
+         real(dp), intent(out)        :: scale
          real(dp), intent(out)        :: sep, ferr, wr(*), wi(*), dwork(*)
       end subroutine sb03md
    end interface
@@ -63,10 +63,6 @@ contains
       call assert(assertion=any(op == ["n", "t", "c"]), &
                   description="Invalid op. Needs to be 'n', 't', or 'c'.")
 
-      scale_ = optval(scale, 1.0_dp)
-      call assert(assertion=(0.0_dp < scale_) .and. (scale_ <= 1.0_dp), &
-                  description="scale needs to be between 0 (excluded) and 1 (included).")
-
       if (.not. factorized) then
          call assert(assertion=present(wr) .and. present(wi), &
                      description="Both wr and wi need to be passed if factorized = .false.")
@@ -105,6 +101,7 @@ contains
       call sb03md(dico, job, fact, op, lda, a, n, u, ldu, c, ldc, &
                   scale_, sep, ferr_, wr_, wi_, iwork_, dwork_, ldwork, info)
       !----- Optional returns -----
+      if (present(scale)) scale = scale_
       if (present(separation)) separation = sep
       if (present(ferr)) ferr = ferr_
    end associate
@@ -118,13 +115,14 @@ contains
    logical, parameter          :: factorized = .false.
    character(len=1), parameter :: dico = "c", job = "x", op = "t"
    real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
+   real(dp)                    :: scale
    associate (n => size(A, 1))
       ! ----- Prepare input for slicot -----
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
       allocate (x, source=q)
       ! ----- Solve Lyapunov equation -----
-      call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi)
+      call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure lyap
 
@@ -132,13 +130,14 @@ contains
    logical, parameter          :: factorized = .false.
    character(len=1), parameter :: dico = "d", job = "x", op = "t"
    real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
+   real(dp)                    :: scale
    associate (n => size(A, 1))
       ! ----- Prepare input for slicot -----
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
       allocate (x, source=q)
       ! ----- Solve Lyapunov equation -----
-      call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi)
+      call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure dlyap
 
@@ -157,6 +156,7 @@ contains
    character(len=1), parameter :: job = "x", op = "n"
    character(len=1)            :: dico
    real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
+   real(dp)                    :: scale
    associate (lda => size(a, 1), n => size(a, 2))
       !----- Input validation ------
       call assert(assertion=lda == n, &
@@ -169,7 +169,7 @@ contains
       p = matmul(b, transpose(b))
       dico = "c"; if (present(discrete)) dico = merge("d", "c", discrete)
       ! ----- Solve Lyapunov equation -----
-      call solve_lyapunov(amat, p, u, dico, op, factorized, job, wr=wr, wi=wi)
+      call solve_lyapunov(amat, p, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure ctrb_gramian_mimo
 
@@ -184,6 +184,7 @@ contains
    character(len=1), parameter :: job = "x", op = "t"
    character(len=1)            :: dico
    real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
+   real(dp)                    :: scale
    associate (lda => size(a, 1), n => size(a, 2))
       !----- Input validation ------
       call assert(assertion=lda == n, &
@@ -196,7 +197,7 @@ contains
       q = matmul(transpose(c), c)
       dico = "c"; if (present(discrete)) dico = merge("d", "c", discrete)
       ! ----- Solve Lyapunov equation -----
-      call solve_lyapunov(amat, q, u, dico, op, factorized, job, wr=wr, wi=wi)
+      call solve_lyapunov(amat, q, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure obs_gramian_mimo
 
