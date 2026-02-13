@@ -38,20 +38,13 @@ jobs:
             toolchain: {compiler: intel-classic} # Fail to build. Mixing ifort and gfortran?
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      
-      - uses: fortran-lang/setup-fortran@main
-        id: setup-fortran
+      - name: Setup Fortran
+        uses: gha3mi/setup-fortran-conda@latest
         with:
+          platform: ${{ matrix.os }}
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
           extra-packages: "blas,lapack"
 
-      - name: Setup Fortran Package Manager
-        uses: fortran-lang/setup-fpm@v9
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: |
-          fpm test --compiler ${{ matrix.compiler }} --profile debug --verbose
+      - name: fpm test (debug)
+        run: fpm test --compiler ${{ matrix.compiler }} --profile debug --verbose
