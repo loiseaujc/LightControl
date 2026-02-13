@@ -2,7 +2,8 @@ module TestLyapunov
    use testdrive, only: new_unittest, unittest_type, error_type, check
    use stdlib_kinds, only: dp
    use stdlib_math, only: all_close
-   use LightControl, only: lyap
+   use stdlib_linalg, only: eye
+   use LightControl, only: lyap, dlyap
    implicit none
 
    public :: collect_test_lyapunov
@@ -10,7 +11,8 @@ contains
    subroutine collect_test_lyapunov(testsuite)
       type(unittest_type), allocatable, intent(out) :: testsuite(:)
       testsuite = [ &
-                  new_unittest("Continuous-time Lyapunov", test_lyap) &
+                  new_unittest("Continuous-time Lyapunov", test_lyap), &
+                  new_unittest("Discrete-time Lyapunov", test_dlyap) &
                   ]
    end subroutine collect_test_lyapunov
 
@@ -39,4 +41,30 @@ contains
          if (allocated(error)) return
       end block
    end subroutine test_lyap
+
+   subroutine test_dlyap(error)
+      type(error_type), allocatable, intent(out) :: error
+      !---------------------------------
+      !-----     SCIPY EXAMPLE     -----
+      !---------------------------------
+      block
+         real(dp) :: A(2, 2), Q(2, 2), X(2, 2), Xref(2, 2)
+         integer :: i, j
+         !> Problem's data
+         A(1, 1) = 0.2_dp; A(1, 2) = 0.5_dp
+         A(2, 1) = 0.7_dp; A(2, 2) = -0.9_dp
+
+         Q = eye(2)
+
+         Xref(1, :) = [0.70872893_dp, 1.43518822_dp]
+         Xref(2, :) = [1.43518822_dp, -2.4266315_dp]
+
+         !> Solve Lyapunov equation.
+         X = dlyap(A, -Q)
+
+         !> Check error.
+         call check(error, all_close(X, Xref, abs_tol=1e-8_dp))
+         if (allocated(error)) return
+      end block
+   end subroutine test_dlyap
 end module TestLyapunov
