@@ -2,7 +2,7 @@ program demo
    use stdlib_kinds, only: dp
    use stdlib_io_npy, only: save_npy
    use LightControl
-   implicit none(type, external)
+   implicit none
 
    integer, parameter :: n = 2, p = 1, q = 1
    real(dp), parameter :: dt = 1.0e-2_dp

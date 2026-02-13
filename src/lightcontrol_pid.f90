@@ -3,7 +3,7 @@ module lightcontrol_pid
    use stdlib_kinds, only: dp
    use stdlib_math, only: clip
    use stdlib_optval, only: optval
-   implicit none(type, external)
+   implicit none
    private
 
    type, public :: pid_controller
