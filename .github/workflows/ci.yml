@@ -10,15 +10,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         toolchain:
-          - {compiler: gcc, version: 10, extra-packages: "blas,lapack"}
-          - {compiler: gcc, version: 11, extra-packages: "blas,lapack"}
-          - {compiler: gcc, version: 12, extra-packages: "blas,lapack"}
-          - {compiler: gcc, version: 13, extra-packages: "blas,lapack"}
-          - {compiler: gcc, version: 14, extra-packages: "blas,lapack"}
-          - {compiler: gcc, version: 15, extra-packages: "blas,lapack"}
-          - {compiler: intel, version: '2025.0', extra-packages: "blas,lapack"}
-          - {compiler: intel-classic, version: '2021.10', extra-packages: "blas,lapack"}
-          - {compiler: nvidia-hpc, version: '25.1', extra-packages: "blas,lapack"}
+          - {compiler: gcc, version: 10}
+          - {compiler: gcc, version: 11}
+          - {compiler: gcc, version: 12}
+          - {compiler: gcc, version: 13}
+          - {compiler: gcc, version: 14}
+          - {compiler: gcc, version: 15}
+          - {compiler: intel, version: '2025.0'}
+          - {compiler: intel-classic, version: '2021.10'}
+          - {compiler: nvidia-hpc, version: '25.1'}
         exclude:
           - os: ubuntu-latest
             toolchain: {compiler: gcc, version: 15}
@@ -46,6 +46,7 @@ jobs:
         with:
           compiler: ${{ matrix.toolchain.compiler }}
           version: ${{ matrix.toolchain.version }}
+          extra-packages: "blas,lapack"
 
       - name: Setup Fortran Package Manager
         uses: fortran-lang/setup-fpm@v9
