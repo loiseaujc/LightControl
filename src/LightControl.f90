@@ -2,10 +2,8 @@ module LightControl
    use assert_m, only: assert => assert_always
    use stdlib_kinds, only: dp
    use stdlib_optval, only: optval
-   use lightcontrol_pid, only: pid_controller
-   implicit none(type, external)
+   implicit none
    private
-   public :: pid_controller
    public :: lyap, dlyap, solve_lyapunov
    public :: ctrb_gramian, obs_gramian
 
