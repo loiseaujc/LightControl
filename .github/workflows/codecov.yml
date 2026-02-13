@@ -9,44 +9,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            toolchain: {compiler: gcc, version: 14, flags: ['-coverage']}
-
+        - {os: ubuntu-latest, compiler: gfortran, compiler-version: "10"}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      
-      - uses: fortran-lang/setup-fortran@main
-        id: setup-fortran
+      - name: Setup Fortran
+        uses: gha3mi/setup-fortran-conda@latest
         with:
-          compiler: ${{ matrix.toolchain.compiler }}
-          version: ${{ matrix.toolchain.version }}
-
-      - name: Setup Fortran Package Manager
-        uses: fortran-lang/setup-fpm@v9
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Prepare for code coverage
-        if: contains( matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get install lcov
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install -y gcc-14 gfortran-14 blas lapack
-          sudo update-alternatives \
-             --install /usr/bin/gcc gcc /usr/bin/gcc-14 100 \
-             --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-14 \
-             --slave /usr/bin/gcov gcov /usr/bin/gcov-14
+          platform: ${{ matrix.os }}
+          compiler: ${{ matrix.compiler }}
+          compiler-version: ${{ matrix.compiler-version }}
+          extra-packages: "blas,lapack,lcov"
 
       - name: Run tests
         run: |
-          fpm test --profile debug --flag "${{ join(matrix.toolchain.flags, ' ') }}"
-
-      # - name: Run examples
-      #   run: |
-      #     fpm run --profile debug --flag "${{ join(matrix.toolchain.flags, ' ') }}" --example Roessler
-      #     fpm run --profile debug --flag "${{ join(matrix.toolchain.flags, ' ') }}" --example Ginzburg-Landau
+          fpm test --profile debug --flag "-coverage"
 
       - name: Create coverage report
         run: |
