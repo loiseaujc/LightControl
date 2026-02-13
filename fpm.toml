@@ -11,6 +11,7 @@ auto-executables = true
 auto-tests = true
 auto-examples = true
 module-naming = false
+link = ["blas", "lapack"]
 
 [install]
 library = true
@@ -22,7 +23,6 @@ source-form = "free"
 
 [dependencies]
 stdlib = "*"
-blas = "*"
 assert = {git="https://github.com/BerkeleyLab/assert.git"}
 slicot = { git = "https://github.com/SLICOT/SLICOT-Reference", branch = "main" }
 
