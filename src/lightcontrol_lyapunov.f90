@@ -7,7 +7,8 @@ submodule(lightcontrol) lightcontrol_lyapunov
                              scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info)
          import dp
          character(len=1), intent(in) :: dico, fact, job, trana
-         integer, intent(in)          :: n, lda, ldu, ldc, ldwork
+         integer, intent(in)          :: n, lda, ldu, ldc
+         integer, intent(inout)       :: ldwork
          integer, intent(out)         :: iwork(*), info
          real(dp), intent(inout)      :: a(lda, *), u(ldu, *), c(ldc, *)
          real(dp), intent(out)        :: scale
