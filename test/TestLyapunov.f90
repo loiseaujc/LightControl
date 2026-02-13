@@ -73,7 +73,6 @@ contains
       !---------------------------------
       block
          real(dp) :: A(2, 2), Q(2, 2), X(2, 2), Xref(2, 2)
-         integer :: i, j
          !> Problem's data
          A(1, 1) = 0.2_dp; A(1, 2) = 0.5_dp
          A(2, 1) = 0.7_dp; A(2, 2) = -0.9_dp
@@ -85,6 +84,32 @@ contains
 
          !> Solve Lyapunov equation.
          X = dlyap(A, -Q)
+
+         !> Check error.
+         call check(error, all_close(X, Xref, abs_tol=1e-8_dp))
+         if (allocated(error)) return
+      end block
+
+      !----------------------------------
+      !-----     SLICOT EXAMPLE     -----
+      !----------------------------------
+      block
+         real(dp) :: A(3, 3), Q(3, 3), X(3, 3), Xref(3, 3)
+         !> Problem's data.
+         A(1, :) = [3.0_dp, 1.0_dp, 1.0_dp]
+         A(2, :) = [1.0_dp, 3.0_dp, 0.0_dp]
+         A(3, :) = [0.0_dp, 0.0_dp, 3.0_dp]
+
+         Q(1, :) = [25.0_dp, 24.0_dp, 15.0_dp]
+         Q(2, :) = [24.0_dp, 32.0_dp, 8.0_dp]
+         Q(3, :) = [15.0_dp, 8.0_dp, 40.0_dp]
+
+         Xref(1, :) = [2.0_dp, 1.0_dp, 1.0_dp]
+         Xref(2, :) = [1.0_dp, 3.0_dp, 0.0_dp]
+         Xref(3, :) = [1.0_dp, 0.0_dp, 4.0_dp]
+
+         !> Solve Lyapunov equation.
+         X = dlyap(transpose(A), Q)
 
          !> Check error.
          call check(error, all_close(X, Xref, abs_tol=1e-8_dp))
