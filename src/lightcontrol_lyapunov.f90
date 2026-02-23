@@ -1,20 +1,6 @@
 submodule(lightcontrol) lightcontrol_lyapunov
+   use slicot, only: sb03md
    implicit none(type, external)
-
-   interface
-      ! Lyapunov solver from SLICOT.
-      pure subroutine sb03md(dico, job, fact, trana, n, a, lda, u, ldu, c, ldc, &
-                             scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info)
-         import dp
-         character(len=1), intent(in) :: dico, fact, job, trana
-         integer, intent(in)          :: n, lda, ldu, ldc
-         integer, intent(inout)       :: ldwork
-         integer, intent(out)         :: iwork(*), info
-         real(dp), intent(inout)      :: a(lda, *), u(ldu, *), c(ldc, *)
-         real(dp), intent(out)        :: scale
-         real(dp), intent(out)        :: sep, ferr, wr(*), wi(*), dwork(*)
-      end subroutine sb03md
-   end interface
 
 contains
 

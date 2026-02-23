@@ -42,7 +42,7 @@ module LightControl
       !!
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
-      pure module function lyap(A, Q) result(X)
+      module function lyap(A, Q) result(X)
          real(dp), intent(in)  :: A(:, :)
          !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in)  :: Q(:, :)
@@ -82,7 +82,7 @@ module LightControl
       !!
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
-      pure module function dlyap(A, Q) result(X)
+      module function dlyap(A, Q) result(X)
          real(dp), intent(in)  :: A(:, :)
          real(dp), intent(in)  :: Q(:, :)
          real(dp), allocatable :: X(:, :)
@@ -141,7 +141,7 @@ module LightControl
          real(dp), allocatable                    :: P(:, :)
       end function ctrb_gramian_siso
 
-      pure module function ctrb_gramian_mimo(A, B, discrete) result(P)
+      module function ctrb_gramian_mimo(A, B, discrete) result(P)
          real(dp), intent(in)          :: A(:, :)
          real(dp), intent(in)          :: B(:, :)
          logical, intent(in), optional :: discrete
@@ -201,7 +201,7 @@ module LightControl
          real(dp), allocatable                    :: Q(:, :)
       end function obs_gramian_siso
 
-      pure module function obs_gramian_mimo(A, C, discrete) result(Q)
+      module function obs_gramian_mimo(A, C, discrete) result(Q)
          real(dp), intent(in)          :: A(:, :)
          real(dp), intent(in)          :: C(:, :)
          logical, intent(in), optional :: discrete
@@ -296,7 +296,7 @@ module LightControl
       !!
       !!    - `dwork` (optional)    :   double precision array of size `ldwork`, where `ldwork`
       !!                                is computed with the `lyapunov_workspace` function.
-      pure module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
+      module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
          real(dp), intent(inout), target         :: A(:, :)
          real(dp), intent(inout), target         :: C(:, :)
          real(dp), intent(inout), target         :: U(:, :)
@@ -314,7 +314,7 @@ module LightControl
    end interface
 
    interface
-      pure module integer function lyapunov_workspace(n, dico, job, fact) result(ldwork)
+      module integer function lyapunov_workspace(n, dico, job, fact) result(ldwork)
          integer, intent(in) :: n
          !> Order of the system.
          character(len=1), intent(in) :: dico
