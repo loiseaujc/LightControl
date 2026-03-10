@@ -116,7 +116,7 @@ contains
 
       ! ----- Solve Riccati equation -----
       block
-         character(len=1), parameter :: hinv = "d", sort = "s"
+         character(len=1), parameter :: hinv = "i", sort = "s"
          integer :: lds, ldu, i, j
          real(dp), allocatable :: s(:, :), u(:, :)
 

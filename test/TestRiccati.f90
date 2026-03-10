@@ -11,7 +11,8 @@ contains
    subroutine collect_test_riccati(testsuite)
       type(unittest_type), allocatable, intent(out) :: testsuite(:)
       testsuite = [ &
-                  new_unittest("Continuous-time Riccati", test_care) &
+                  new_unittest("Continuous-time Riccati", test_care), &
+                  new_unittest("Discrete-time Riccati", test_dare) &
                   ]
    end subroutine collect_test_riccati
 
@@ -44,5 +45,36 @@ contains
          end do
       end block
    end subroutine test_care
+
+   subroutine test_dare(error)
+      type(error_type), allocatable, intent(out) :: error
+
+      !----------------------------------
+      !-----     MATLAB EXAMPLE     -----
+      !----------------------------------
+      block
+         integer, parameter :: m = 1, n = 2
+         character(len=1), parameter :: dico = "d", scale = "n"
+         real(dp) :: A(n, n), B(n, m), Q(n, n), R(m, m)
+         integer :: i, j
+         !> Problem's data.
+         A(1, :) = [-0.9_dp, -0.3_dp]
+         A(2, :) = [0.7_dp, 0.1_dp]
+
+         B = 1.0_dp
+
+         Q(1, :) = [1.0_dp, 0.0_dp]
+         Q(2, :) = [0.0_dp, 3.0_dp]
+
+         R = 0.1_dp
+
+         call solve_riccati(A, B, Q, R, dico, scale)
+
+         print *
+         do i = 1, n
+            print *, (Q(i, j), j=1, n)
+         end do
+      end block
+   end subroutine test_dare
 
 end module TestRiccati
