@@ -2,6 +2,7 @@ program check
    use, intrinsic :: iso_fortran_env, only: error_unit, output_unit
    use testdrive, only: run_testsuite, new_testsuite, testsuite_type
    use TestLyapunov, only: collect_test_lyapunov
+   use TestRiccati, only: collect_test_riccati
    use LightControl
    implicit none
 
@@ -12,7 +13,8 @@ program check
 
    status = 0
    testsuites = [ &
-                new_testsuite("Lyapunov Test Suite", collect_test_lyapunov) &
+                new_testsuite("Lyapunov Test Suite", collect_test_lyapunov), &
+                new_testsuite("Riccati Test Suite", collect_test_riccati) &
                 ]
 
    do is = 1, size(testsuites)

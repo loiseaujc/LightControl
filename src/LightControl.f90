@@ -4,8 +4,10 @@ module LightControl
    use stdlib_optval, only: optval
    implicit none
    private
-   public :: lyap, dlyap, solve_lyapunov
+   public :: lyap, dlyap, solve_lyapunov, lyapunov_workspace
    public :: ctrb_gramian, obs_gramian
+
+   public :: dare, care, solve_riccati, riccati_workspace
 
    !--------------------------------------
    !-----     LYAPUNOV EQUATIONS     -----
@@ -40,7 +42,7 @@ module LightControl
       !!
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
-      pure module function lyap(A, Q) result(X)
+      module function lyap(A, Q) result(X)
          real(dp), intent(in)  :: A(:, :)
          !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in)  :: Q(:, :)
@@ -80,7 +82,7 @@ module LightControl
       !!
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
-      pure module function dlyap(A, Q) result(X)
+      module function dlyap(A, Q) result(X)
          real(dp), intent(in)  :: A(:, :)
          real(dp), intent(in)  :: Q(:, :)
          real(dp), allocatable :: X(:, :)
@@ -139,7 +141,7 @@ module LightControl
          real(dp), allocatable                    :: P(:, :)
       end function ctrb_gramian_siso
 
-      pure module function ctrb_gramian_mimo(A, B, discrete) result(P)
+      module function ctrb_gramian_mimo(A, B, discrete) result(P)
          real(dp), intent(in)          :: A(:, :)
          real(dp), intent(in)          :: B(:, :)
          logical, intent(in), optional :: discrete
@@ -199,7 +201,7 @@ module LightControl
          real(dp), allocatable                    :: Q(:, :)
       end function obs_gramian_siso
 
-      pure module function obs_gramian_mimo(A, C, discrete) result(Q)
+      module function obs_gramian_mimo(A, C, discrete) result(Q)
          real(dp), intent(in)          :: A(:, :)
          real(dp), intent(in)          :: C(:, :)
          logical, intent(in), optional :: discrete
@@ -294,10 +296,10 @@ module LightControl
       !!
       !!    - `dwork` (optional)    :   double precision array of size `ldwork`, where `ldwork`
       !!                                is computed with the `lyapunov_workspace` function.
-      pure module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
-         real(dp), intent(inout), target         :: A(:, :)
-         real(dp), intent(inout), target         :: C(:, :)
-         real(dp), intent(inout), target         :: U(:, :)
+      module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
+         real(dp), intent(inout)                 :: A(:, :)
+         real(dp), intent(inout)                 :: C(:, :)
+         real(dp), intent(inout)                 :: U(:, :)
          character(len=1), intent(in)            :: dico
          character(len=1), intent(in)            :: op
          logical, intent(in)                     :: factorized
@@ -312,7 +314,7 @@ module LightControl
    end interface
 
    interface
-      pure module integer function lyapunov_workspace(n, dico, job, fact) result(ldwork)
+      module integer function lyapunov_workspace(n, dico, job, fact) result(ldwork)
          integer, intent(in) :: n
          !> Order of the system.
          character(len=1), intent(in) :: dico
@@ -327,5 +329,53 @@ module LightControl
          !  - fact = "f": A has already been factorized.
          !  - fact = "n": A has not been factorized yet.
       end function lyapunov_workspace
+   end interface
+
+   !-------------------------------------
+   !-----     RICCATI EQUATIONS     -----
+   !-------------------------------------
+
+   interface
+      module integer function riccati_workspace(m, n, dico, jobg, jobl, fact) result(ldwork)
+         integer, intent(in) :: m, n
+         character(len=1), intent(in) :: dico, jobg, jobl, fact
+      end function riccati_workspace
+   end interface
+
+   interface
+      module subroutine solve_riccati(A, B, Q, R, dico, scale, rcond, wr, wi, iwork, dwork, bwork, overwrite_a)
+         real(dp), intent(inout), target :: A(:, :)
+         real(dp), intent(inout) :: B(:, :)
+         real(dp), intent(inout) :: Q(:, :)
+         real(dp), intent(inout) :: R(:, :)
+         character(len=1), intent(in) :: dico
+         character(len=1), intent(in) :: scale
+         real(dp), optional, intent(out) :: rcond
+         real(dp), optional, intent(out), target :: wr(:), wi(:)
+         integer, optional, intent(out), target :: iwork(:)
+         real(dp), optional, intent(out), target :: dwork(:)
+         logical, optional, intent(out), target :: bwork(:)
+         logical, optional, intent(in) :: overwrite_a
+      end subroutine solve_riccati
+   end interface
+
+   interface
+      module function care(A, B, Q, R) result(X)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in) :: B(:, :)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: R(:, :)
+         real(dp), allocatable :: X(:, :)
+      end function care
+   end interface
+
+   interface
+      module function dare(A, B, Q, R) result(X)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in) :: B(:, :)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: R(:, :)
+         real(dp), allocatable :: X(:, :)
+      end function dare
    end interface
 end module LightControl
