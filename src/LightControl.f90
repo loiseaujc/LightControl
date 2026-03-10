@@ -7,7 +7,7 @@ module LightControl
    public :: lyap, dlyap, solve_lyapunov, lyapunov_workspace
    public :: ctrb_gramian, obs_gramian
 
-   public :: solve_riccati, riccati_workspace
+   public :: dare, care, solve_riccati, riccati_workspace
 
    !--------------------------------------
    !-----     LYAPUNOV EQUATIONS     -----
@@ -357,5 +357,25 @@ module LightControl
          logical, optional, intent(out), target :: bwork(:)
          logical, optional, intent(in) :: overwrite_a
       end subroutine solve_riccati
+   end interface
+
+   interface
+      module function care(A, B, Q, R) result(X)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in) :: B(:, :)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: R(:, :)
+         real(dp), allocatable :: X(:, :)
+      end function care
+   end interface
+
+   interface
+      module function dare(A, B, Q, R) result(X)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in) :: B(:, :)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: R(:, :)
+         real(dp), allocatable :: X(:, :)
+      end function dare
    end interface
 end module LightControl

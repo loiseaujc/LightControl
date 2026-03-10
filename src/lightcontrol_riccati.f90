@@ -138,4 +138,34 @@ contains
    end associate
    end procedure solve_riccati
 
+   !----------------------------------------
+   !-----     HIGH-LEVEL FUNCTIONS     -----
+   !----------------------------------------
+
+   module procedure care
+   character(len=1), parameter :: dico = "c"
+   character(len=1), parameter :: scale = "n"
+   real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
+   !> Prepare input for slicot.
+   allocate (amat, source=a)
+   allocate (bmat, source=b)
+   allocate (rmat, source=r)
+   allocate (x, source=q)
+   !> Solve continuous-time algebraic Riccati equation.
+   call solve_riccati(amat, bmat, x, rmat, dico, scale)
+   end procedure care
+
+   module procedure dare
+   character(len=1), parameter :: dico = "d"
+   character(len=1), parameter :: scale = "n"
+   real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
+   !> Prepare input for slicot.
+   allocate (amat, source=a)
+   allocate (bmat, source=b)
+   allocate (rmat, source=r)
+   allocate (x, source=q)
+   !> Solve continuous-time algebraic Riccati equation.
+   call solve_riccati(amat, bmat, x, rmat, dico, scale)
+   end procedure dare
+
 end submodule lightcontrol_riccati
