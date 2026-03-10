@@ -10,9 +10,9 @@ contains
 
    module procedure lyapunov_workspace
    character(len=1), parameter :: trana = "n"
-   real(dp) :: a(1, 1), u(1, 1), c(1, 1), wr(1), wi(1), dwork(1)
-   real(dp) :: scale, sep, ferr
-   integer  :: iwork(1), info
+   real(dp)                    :: a(1, 1), u(1, 1), c(1, 1), wr(1), wi(1), dwork(1)
+   real(dp)                    :: scale, sep, ferr
+   integer                     :: iwork(1), info
 
    ! ----- Instructions -----
    associate (lda => n, ldu => n, ldc => n)

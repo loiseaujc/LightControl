@@ -9,15 +9,18 @@ contains
    !------------------------------------
 
    module procedure riccati_workspace
-   integer :: ldwork_sb02mt, iwork(1), info, ipiv(1), oufact
+   integer                     :: ldwork_sb02mt, iwork(1), info, ipiv(1), oufact
    character(len=1), parameter :: uplo = "u"
-   real(dp) :: a(1, 1), b(1, 1), q(1, 1), r(1, 1), l(1, 1), g(1, 1), dwork(1)
+   real(dp)                    :: a(1, 1), b(1, 1), q(1, 1), r(1, 1), l(1, 1), g(1, 1), dwork(1)
+
    associate (lda => n, ldb => n, ldq => merge(1, n, jobl == "z"), ldr => m, &
               ldl => merge(1, n, jobl == "z"), ldg => merge(1, n, jobg == "n"))
       ldwork = -1 ! Workspace query.
-      call sb02mt(jobg, jobl, fact, uplo, n, m, a, lda, b, ldb, q, ldq, r, ldr, l, ldl, ipiv, &
-                  oufact, g, ldg, iwork, dwork, ldwork, info)
-      ldwork = int(ceiling(dwork(1), kind=dp))
+      call sb02mt(jobg, jobl, fact, uplo, &
+                  n, m, a, lda, b, ldb, q, ldq, r, ldr, l, ldl, &
+                  ipiv, oufact, g, ldg, &
+                  iwork, dwork, ldwork, info)
+      ldwork = int(ceiling(dwork(1), kind=dp)) ! Optimal workspace size.
       call assert(assertion=info == 0, &
                   description="Error during workspace query in sb02mt.")
       ! Maximum over ldwork for sb02mt and sb02md.
@@ -26,13 +29,14 @@ contains
    end procedure riccati_workspace
 
    module procedure solve_riccati
-   logical :: copy_a
-   integer :: ldwork, info
-   real(dp) :: rcond_
+   logical               :: copy_a
+   integer               :: ldwork, info
+   real(dp)              :: rcond_
    real(dp), allocatable :: G(:, :)
-   logical, pointer :: bwork_(:)
-   integer, pointer :: iwork_(:)
-   real(dp), pointer :: amat(:, :), dwork_(:), wr_(:), wi_(:)
+   logical, pointer      :: bwork_(:)
+   integer, pointer      :: iwork_(:)
+   real(dp), pointer     :: amat(:, :), dwork_(:), wr_(:), wi_(:)
+
    associate (lda => size(A, 1), n => size(A, 2), ldb => size(B, 1), m => size(B, 2), &
               ldq => size(Q, 1), ldr => size(R, 1), ldg => size(A, 2), &
               jobg => "g", jobl => "z", fact => "n", uplo => "u")
@@ -105,8 +109,8 @@ contains
       !----- Preprocessing -----
       block
          integer, parameter :: ldl = 1
-         integer :: ipiv(m), oufact
-         real(dp) :: l(ldl, ldl)
+         integer            :: ipiv(m), oufact
+         real(dp)           :: l(ldl, ldl)
          call sb02mt(jobg, jobl, fact, uplo, n, m, &
                      amat, lda, b, ldb, q, ldq, r, ldr, l, ldl, &
                      ipiv, oufact, g, ldg, iwork_, dwork_, ldwork, info)
@@ -117,8 +121,8 @@ contains
       ! ----- Solve Riccati equation -----
       block
          character(len=1), parameter :: hinv = "i", sort = "s"
-         integer :: lds, ldu
-         real(dp), allocatable :: s(:, :), u(:, :)
+         integer                     :: lds, ldu
+         real(dp), allocatable       :: s(:, :), u(:, :)
 
          !> Allocate arrays.
          lds = 2*n; ldu = 2*n
@@ -143,7 +147,7 @@ contains
    !----------------------------------------
    module procedure care_siso
    real(dp), pointer :: bmat(:, :)
-   real(dp) :: rmat(1, 1)
+   real(dp)          :: rmat(1, 1)
    bmat(1:size(b), 1:1) => b
    rmat = r
    X = care_mimo(a, bmat, q, rmat)
@@ -152,7 +156,7 @@ contains
    module procedure care_mimo
    character(len=1), parameter :: dico = "c"
    character(len=1), parameter :: scal = "n"
-   real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
+   real(dp), allocatable       :: amat(:, :), bmat(:, :), rmat(:, :)
    !> Prepare input for slicot.
    allocate (amat, source=a)
    allocate (bmat, source=b)
@@ -164,7 +168,7 @@ contains
 
    module procedure dare_siso
    real(dp), pointer :: bmat(:, :)
-   real(dp) :: rmat(1, 1)
+   real(dp)          :: rmat(1, 1)
    bmat(1:size(b), 1:1) => b
    rmat = r
    X = dare_mimo(a, bmat, q, rmat)
@@ -173,7 +177,7 @@ contains
    module procedure dare_mimo
    character(len=1), parameter :: dico = "d"
    character(len=1), parameter :: scal = "n"
-   real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
+   real(dp), allocatable       :: amat(:, :), bmat(:, :), rmat(:, :)
    !> Prepare input for slicot.
    allocate (amat, source=a)
    allocate (bmat, source=b)

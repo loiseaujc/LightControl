@@ -26,8 +26,8 @@ contains
       block
          integer, parameter :: n = 2      ! Number of states.
          integer, parameter :: m = 1      ! Number of inputs.
-         real(dp) :: A(n, n), b(n)     ! State-space model.
-         real(dp) :: Q(n, n), r         ! LQR cost.
+         real(dp) :: A(n, n), b(n)        ! State-space model.
+         real(dp) :: Q(n, n), r           ! LQR cost.
          real(dp) :: Xref(n, n)           ! Reference solution.
          real(dp), allocatable :: X(:, :) ! SLICOT solution.
 
@@ -65,8 +65,8 @@ contains
       block
          integer, parameter :: n = 2      ! Number of states.
          integer, parameter :: m = 1      ! Number of inputs.
-         real(dp) :: A(n, n), b(n)     ! State-space model.
-         real(dp) :: Q(n, n), r     ! LQR cost.
+         real(dp) :: A(n, n), b(n)        ! State-space model.
+         real(dp) :: Q(n, n), r           ! LQR cost.
          real(dp) :: Xref(n, n)           ! Reference solution.
          real(dp), allocatable :: X(:, :) ! SLICOT solution.
 
