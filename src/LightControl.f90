@@ -7,7 +7,7 @@ module LightControl
    public :: lyap, dlyap, solve_lyapunov, lyapunov_workspace
    public :: ctrb_gramian, obs_gramian
 
-   public :: riccati_workspace
+   public :: solve_riccati, riccati_workspace
 
    !--------------------------------------
    !-----     LYAPUNOV EQUATIONS     -----
@@ -297,9 +297,9 @@ module LightControl
       !!    - `dwork` (optional)    :   double precision array of size `ldwork`, where `ldwork`
       !!                                is computed with the `lyapunov_workspace` function.
       module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
-         real(dp), intent(inout), target         :: A(:, :)
-         real(dp), intent(inout), target         :: C(:, :)
-         real(dp), intent(inout), target         :: U(:, :)
+         real(dp), intent(inout)                 :: A(:, :)
+         real(dp), intent(inout)                 :: C(:, :)
+         real(dp), intent(inout)                 :: U(:, :)
          character(len=1), intent(in)            :: dico
          character(len=1), intent(in)            :: op
          logical, intent(in)                     :: factorized
@@ -340,5 +340,22 @@ module LightControl
          integer, intent(in) :: m, n
          character(len=1), intent(in) :: dico, jobg, jobl, fact
       end function riccati_workspace
+   end interface
+
+   interface
+      module subroutine solve_riccati(A, B, Q, R, dico, scale, rcond, wr, wi, iwork, dwork, bwork, overwrite_a)
+         real(dp), intent(inout), target :: A(:, :)
+         real(dp), intent(inout) :: B(:, :)
+         real(dp), intent(inout) :: Q(:, :)
+         real(dp), intent(inout) :: R(:, :)
+         character(len=1), intent(in) :: dico
+         character(len=1), intent(in) :: scale
+         real(dp), optional, intent(out) :: rcond
+         real(dp), optional, intent(out), target :: wr(:), wi(:)
+         integer, optional, intent(out), target :: iwork(:)
+         real(dp), optional, intent(out), target :: dwork(:)
+         logical, optional, intent(out), target :: bwork(:)
+         logical, optional, intent(in) :: overwrite_a
+      end subroutine solve_riccati
    end interface
 end module LightControl
