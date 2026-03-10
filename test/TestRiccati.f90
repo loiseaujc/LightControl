@@ -3,8 +3,9 @@ module TestRiccati
    use stdlib_kinds, only: dp
    use stdlib_math, only: all_close
    use stdlib_linalg, only: eye
-   use LightControl, only: solve_riccati, riccati_workspace
-   implicit none
+   use LightControl, only: care, dare
+   implicit none(type, external)
+   private
 
    public :: collect_test_riccati
 contains
@@ -23,10 +24,13 @@ contains
       !-----     SCIPY EXAMPLE     -----
       !---------------------------------
       block
-         integer, parameter :: m = 1, n = 2
-         character(len=1), parameter :: dico = "c", scale = "n"
-         real(dp) :: A(n, n), B(n, m), Q(n, n), R(m, m)
-         integer :: i, j
+         integer, parameter :: n = 2      ! Number of states.
+         integer, parameter :: m = 1      ! Number of inputs.
+         real(dp) :: A(n, n), B(n, m)     ! State-space model.
+         real(dp) :: Q(n, n), R(m, m)     ! LQR cost.
+         real(dp) :: Xref(n, n)           ! Reference solution.
+         real(dp), allocatable :: X(:, :) ! SLICOT solution.
+
          !> Problem's data.
          A(1, :) = [4.0_dp, 3.0_dp]
          A(2, :) = [-4.5_dp, -3.5_dp]
@@ -38,11 +42,17 @@ contains
 
          R = 1.0_dp
 
-         call solve_riccati(A, B, Q, R, dico, scale)
+         !> Riccati solver.
+         X = care(A, B, Q, R)
 
-         do i = 1, n
-            print *, (Q(i, j), j=1, n)
-         end do
+         !> Reference solution.
+         Xref(1, :) = [21.72792206_dp, 14.48528137_dp]
+         Xref(2, :) = [14.48528137_dp, 9.65685425_dp]
+
+         !> Check error.
+         call check(error, all_close(X, Xref, abs_tol=1e-8_dp))
+         if (allocated(error)) return
+
       end block
    end subroutine test_care
 
@@ -53,10 +63,13 @@ contains
       !-----     MATLAB EXAMPLE     -----
       !----------------------------------
       block
-         integer, parameter :: m = 1, n = 2
-         character(len=1), parameter :: dico = "d", scale = "n"
-         real(dp) :: A(n, n), B(n, m), Q(n, n), R(m, m)
-         integer :: i, j
+         integer, parameter :: n = 2      ! Number of states.
+         integer, parameter :: m = 1      ! Number of inputs.
+         real(dp) :: A(n, n), B(n, m)     ! State-space model.
+         real(dp) :: Q(n, n), R(m, m)     ! LQR cost.
+         real(dp) :: Xref(n, n)           ! Reference solution.
+         real(dp), allocatable :: X(:, :) ! SLICOT solution.
+
          !> Problem's data.
          A(1, :) = [-0.9_dp, -0.3_dp]
          A(2, :) = [0.7_dp, 0.1_dp]
@@ -68,12 +81,17 @@ contains
 
          R = 0.1_dp
 
-         call solve_riccati(A, B, Q, R, dico, scale)
+         !> Riccati solver.
+         X = dare(A, B, Q, R)
 
-         print *
-         do i = 1, n
-            print *, (Q(i, j), j=1, n)
-         end do
+         !> Reference solution.
+         Xref(1, :) = [4.7687_dp, 0.9438_dp]
+         Xref(2, :) = [0.9438_dp, 3.2369_dp]
+
+         !> Check error.
+         call check(error, all_close(X, Xref, abs_tol=1e-4_dp))
+         if (allocated(error)) return
+
       end block
    end subroutine test_dare
 
