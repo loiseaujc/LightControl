@@ -141,6 +141,13 @@ contains
    !----------------------------------------
    !-----     HIGH-LEVEL FUNCTIONS     -----
    !----------------------------------------
+   module procedure care_siso
+   real(dp), pointer :: bmat(:, :)
+   real(dp) :: rmat(1, 1)
+   bmat(1:size(b), 1:1) => b
+   rmat = r
+   X = care_mimo(a, bmat, q, rmat)
+   end procedure care_siso
 
    module procedure care_mimo
    character(len=1), parameter :: dico = "c"
@@ -154,6 +161,14 @@ contains
    !> Solve continuous-time algebraic Riccati equation.
    call solve_riccati(amat, bmat, x, rmat, dico, scal)
    end procedure care_mimo
+
+   module procedure dare_siso
+   real(dp), pointer :: bmat(:, :)
+   real(dp) :: rmat(1, 1)
+   bmat(1:size(b), 1:1) => b
+   rmat = r
+   X = dare_mimo(a, bmat, q, rmat)
+   end procedure dare_siso
 
    module procedure dare_mimo
    character(len=1), parameter :: dico = "d"

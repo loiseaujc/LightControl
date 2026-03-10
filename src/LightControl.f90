@@ -434,6 +434,15 @@ module LightControl
    end interface
 
    interface care
+      module function care_siso(A, b, Q, r) result(X)
+         implicit none(type, external)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in), contiguous, target :: b(:)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: r
+         real(dp), allocatable :: X(:, :)
+      end function care_siso
+
       module function care_mimo(A, B, Q, R) result(X)
          implicit none(type, external)
          real(dp), intent(in) :: A(:, :)
@@ -445,6 +454,15 @@ module LightControl
    end interface care
 
    interface dare
+      module function dare_siso(A, b, Q, r) result(X)
+         implicit none(type, external)
+         real(dp), intent(in) :: A(:, :)
+         real(dp), intent(in), contiguous, target :: b(:)
+         real(dp), intent(in) :: Q(:, :)
+         real(dp), intent(in) :: r
+         real(dp), allocatable :: X(:, :)
+      end function dare_siso
+
       module function dare_mimo(A, B, Q, R) result(X)
          implicit none(type, external)
          real(dp), intent(in) :: A(:, :)

@@ -26,8 +26,8 @@ contains
       block
          integer, parameter :: n = 2      ! Number of states.
          integer, parameter :: m = 1      ! Number of inputs.
-         real(dp) :: A(n, n), B(n, m)     ! State-space model.
-         real(dp) :: Q(n, n), R(m, m)     ! LQR cost.
+         real(dp) :: A(n, n), b(n)     ! State-space model.
+         real(dp) :: Q(n, n), r         ! LQR cost.
          real(dp) :: Xref(n, n)           ! Reference solution.
          real(dp), allocatable :: X(:, :) ! SLICOT solution.
 
@@ -35,15 +35,15 @@ contains
          A(1, :) = [4.0_dp, 3.0_dp]
          A(2, :) = [-4.5_dp, -3.5_dp]
 
-         B(:, 1) = [1.0_dp, -1.0_dp]
+         b = [1.0_dp, -1.0_dp]
 
          Q(1, :) = [9.0_dp, 6.0_dp]
          Q(2, :) = [6.0_dp, 4.0_dp]
 
-         R = 1.0_dp
+         r = 1.0_dp
 
          !> Riccati solver.
-         X = care(A, B, Q, R)
+         X = care(A, b, Q, r)
 
          !> Reference solution.
          Xref(1, :) = [21.72792206_dp, 14.48528137_dp]
@@ -65,8 +65,8 @@ contains
       block
          integer, parameter :: n = 2      ! Number of states.
          integer, parameter :: m = 1      ! Number of inputs.
-         real(dp) :: A(n, n), B(n, m)     ! State-space model.
-         real(dp) :: Q(n, n), R(m, m)     ! LQR cost.
+         real(dp) :: A(n, n), b(n)     ! State-space model.
+         real(dp) :: Q(n, n), r     ! LQR cost.
          real(dp) :: Xref(n, n)           ! Reference solution.
          real(dp), allocatable :: X(:, :) ! SLICOT solution.
 
@@ -74,15 +74,15 @@ contains
          A(1, :) = [-0.9_dp, -0.3_dp]
          A(2, :) = [0.7_dp, 0.1_dp]
 
-         B = 1.0_dp
+         b = 1.0_dp
 
          Q(1, :) = [1.0_dp, 0.0_dp]
          Q(2, :) = [0.0_dp, 3.0_dp]
 
-         R = 0.1_dp
+         r = 0.1_dp
 
          !> Riccati solver.
-         X = dare(A, B, Q, R)
+         X = dare(A, b, Q, r)
 
          !> Reference solution.
          Xref(1, :) = [4.7687_dp, 0.9438_dp]
