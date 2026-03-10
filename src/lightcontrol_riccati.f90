@@ -117,7 +117,7 @@ contains
       ! ----- Solve Riccati equation -----
       block
          character(len=1), parameter :: hinv = "i", sort = "s"
-         integer :: lds, ldu, i, j
+         integer :: lds, ldu
          real(dp), allocatable :: s(:, :), u(:, :)
 
          !> Allocate arrays.
@@ -142,9 +142,9 @@ contains
    !-----     HIGH-LEVEL FUNCTIONS     -----
    !----------------------------------------
 
-   module procedure care
+   module procedure care_mimo
    character(len=1), parameter :: dico = "c"
-   character(len=1), parameter :: scale = "n"
+   character(len=1), parameter :: scal = "n"
    real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
    !> Prepare input for slicot.
    allocate (amat, source=a)
@@ -152,12 +152,12 @@ contains
    allocate (rmat, source=r)
    allocate (x, source=q)
    !> Solve continuous-time algebraic Riccati equation.
-   call solve_riccati(amat, bmat, x, rmat, dico, scale)
-   end procedure care
+   call solve_riccati(amat, bmat, x, rmat, dico, scal)
+   end procedure care_mimo
 
-   module procedure dare
+   module procedure dare_mimo
    character(len=1), parameter :: dico = "d"
-   character(len=1), parameter :: scale = "n"
+   character(len=1), parameter :: scal = "n"
    real(dp), allocatable :: amat(:, :), bmat(:, :), rmat(:, :)
    !> Prepare input for slicot.
    allocate (amat, source=a)
@@ -165,7 +165,7 @@ contains
    allocate (rmat, source=r)
    allocate (x, source=q)
    !> Solve continuous-time algebraic Riccati equation.
-   call solve_riccati(amat, bmat, x, rmat, dico, scale)
-   end procedure dare
+   call solve_riccati(amat, bmat, x, rmat, dico, scal)
+   end procedure dare_mimo
 
 end submodule lightcontrol_riccati

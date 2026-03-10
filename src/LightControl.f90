@@ -2,11 +2,14 @@ module LightControl
    use assert_m, only: assert => assert_always
    use stdlib_kinds, only: dp
    use stdlib_optval, only: optval
-   implicit none
+   implicit none(type, external)
    private
+
+   !> Lyapunov equations.
    public :: lyap, dlyap, solve_lyapunov, lyapunov_workspace
    public :: ctrb_gramian, obs_gramian
 
+   !> Riccati equations.
    public :: dare, care, solve_riccati, riccati_workspace
 
    !--------------------------------------
@@ -43,11 +46,12 @@ module LightControl
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
       module function lyap(A, Q) result(X)
+         implicit none(type, external)
          real(dp), intent(in)  :: A(:, :)
          !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in)  :: Q(:, :)
          !> Symmetric matrix of dimension `n x n` corresponding to the right-hand
-         !> side of the Lyapunov equaiton.
+         !> side of the Lyapunov equation.
          real(dp), allocatable :: X(:, :)
          !> Solution of the Lyapunov equation, dimension `n x n`.
       end function lyap
@@ -83,9 +87,14 @@ module LightControl
       !!    - `X`   :   Double precision rank 2 array of size `n x n`.
       !!                Returned by the function.
       module function dlyap(A, Q) result(X)
+         implicit none(type, external)
          real(dp), intent(in)  :: A(:, :)
+         !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in)  :: Q(:, :)
+         !> Symmetrix matrix of dimension `n x n` corresponding to the right-hande
+         !> side of the Lyapunov equation.
          real(dp), allocatable :: X(:, :)
+         !> Solution of the Lyapunov equation, dimension `n x n`.
       end function dlyap
    end interface
 
@@ -135,17 +144,29 @@ module LightControl
       !!    - `P`   :   Double precision rank 2 array.
       !!                Returned by the function.
       module function ctrb_gramian_siso(A, b, discrete) result(P)
+         implicit none(type, external)
          real(dp), intent(in)                     :: A(:, :)
+         !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in), contiguous, target :: b(:)
+         !> Input-to-state matrix for a single-input system, dimension `n`.
          logical, intent(in), optional            :: discrete
+         !> Whether the system is discrete-time (`discrete = .true.`) or
+         !> continuous-time (`discrete = .false.`) one. Default is `discrete = .false.`
          real(dp), allocatable                    :: P(:, :)
+         !> Controllability gramian of the system, dimension `n x n`.
       end function ctrb_gramian_siso
 
       module function ctrb_gramian_mimo(A, B, discrete) result(P)
+         implicit none(type, external)
          real(dp), intent(in)          :: A(:, :)
+         !> Dynamics matrix of dimension `n x n`.
          real(dp), intent(in)          :: B(:, :)
+         !> Input-to-state matrix for a multiple-input system, dimension `n x k`.
          logical, intent(in), optional :: discrete
+         !> Whether the system is discrete-time (`discrete = .true.`) or
+         !> continuous-time (`discrete = .false.`) one. Default is `discrete = .false.`
          real(dp), allocatable         :: P(:, :)
+         !> Controllability gramian of the system, dimension `n x n`.
       end function ctrb_gramian_mimo
    end interface ctrb_gramian
 
@@ -195,17 +216,29 @@ module LightControl
       !!    - `P`   :   Double precision rank 2 array.
       !!                Returned by the function.
       module function obs_gramian_siso(A, c, discrete) result(Q)
+         implicit none(type, external)
          real(dp), intent(in)                     :: A(:, :)
+         !> Dynamics matrix of the system, dimension `n x n`.
          real(dp), intent(in), contiguous, target :: c(:)
+         !> Measurement matrix of the system for single-output system, dimension `n`.
          logical, intent(in), optional            :: discrete
+         !> Whether the system is discrete-time (`discrete = .true.`) or
+         !> continuous-time (`discrete = .false.`) one. Default is `discrete = .false.`
          real(dp), allocatable                    :: Q(:, :)
+         !> Observablity gramian of the system, dimension `n x n`.
       end function obs_gramian_siso
 
       module function obs_gramian_mimo(A, C, discrete) result(Q)
+         implicit none(type, external)
          real(dp), intent(in)          :: A(:, :)
+         !> Dynamics matrix of the system, dimension `n x n`.
          real(dp), intent(in)          :: C(:, :)
+         !> Measurement matrix of the system for multiple-output system, dimension `k x n`.
          logical, intent(in), optional :: discrete
+         !> Whether the system is discrete-time (`discrete = .true.`) or
+         !> continuous-time (`discrete = .false.`) one. Default is `discrete = .false.`
          real(dp), allocatable         :: Q(:, :)
+         !> Observablity gramian of the system, dimension `n x n`.
       end function obs_gramian_mimo
    end interface obs_gramian
 
@@ -296,25 +329,57 @@ module LightControl
       !!
       !!    - `dwork` (optional)    :   double precision array of size `ldwork`, where `ldwork`
       !!                                is computed with the `lyapunov_workspace` function.
-      module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)
+      module subroutine solve_lyapunov(A, C, U, &
+                                       dico, op, factorized, job, &
+                                       scale, separation, ferr, wr, wi, iwork, dwork)
+         implicit none(type, external)
          real(dp), intent(inout)                 :: A(:, :)
+         !> Dynamics matrix of the system, dimension `n x n`.
          real(dp), intent(inout)                 :: C(:, :)
+         !> On entry: right-hand side symmetric matrix of dimension `n x n`.
+         !> On exit: Overwritten by the solution to the Lyapunov equation.
          real(dp), intent(inout)                 :: U(:, :)
+         !> On entry: If `factorized = .true.`, it must contains the orthogonal matrix of the
+         !>           real Schur form of `A` and is unchanged on exit. If `factorized = .false.`
+         !>           its values on entry are irrelevant.
+         !> On exit: If `factorized = .true.`, it is unchanged. If `factorized = .false.`, it
+         !>          will contain the orthgonal matrix of the real Schur factorization of `A`.
          character(len=1), intent(in)            :: dico
+         !> Whether the continuous (`dico = "c"`) or discrete (`dico = "d"`) time Lyapunov
+         !> is being solved.
          character(len=1), intent(in)            :: op
+         !> Whether `op(A) = A` (`op = "n"`) or `op(A) = transpose(A)` (`op = "t"`).
          logical, intent(in)                     :: factorized
+         !> Whether `A` has already been factorized to its real Schur form.
+         !> If `factorized = .true.`, `U` must contain the associated orthogonal transformation.
          character(len=1), intent(in)            :: job
+         !> Input specifying the computation to be performed as follows:
+         !>                - `"x"`: compute the solution only.
+         !>                - `"s"`: compute the separation only.
+         !>                - `"b"`: compute both the solution and the separation.
          real(dp), optional, intent(out)         :: scale
+         !> double precision floating point number returned by `sb03md`. It is set
+         !> between 0 and 1 to prevent the solution overflowing.
          real(dp), optional, intent(out)         :: separation
+         !> double precision floating point number returned by `sb03md` if `job = "s"` or
+         !> `job = "b"`.
          real(dp), optional, intent(out)         :: ferr
+         !> double precision floating point number returned by `sb03md`. It is an estimated
+         !> forward error bound for the solution `X`. If `job = "x"` or `job ="s"`,
+         !> it is not referenced.
          real(dp), optional, intent(out), target :: wr(:), wi(:)
+         !> If `factorized = .false.`, they contain on exit the real and imaginary parts
+         !> of the eigenvalues of `A`.
          integer, optional, intent(out), target  :: iwork(:)
+         !> Integer workspace array.
          real(dp), optional, intent(out), target :: dwork(:)
+         !> double precision workspace array.
       end subroutine solve_lyapunov
    end interface
 
    interface
       module integer function lyapunov_workspace(n, dico, job, fact) result(ldwork)
+         implicit none(type, external)
          integer, intent(in) :: n
          !> Order of the system.
          character(len=1), intent(in) :: dico
@@ -337,45 +402,56 @@ module LightControl
 
    interface
       module integer function riccati_workspace(m, n, dico, jobg, jobl, fact) result(ldwork)
-         integer, intent(in) :: m, n
-         character(len=1), intent(in) :: dico, jobg, jobl, fact
+         implicit none(type, external)
+         integer, intent(in) :: n
+         !> Number of states.
+         integer, intent(in) :: m
+         !> Number of inputs.
+         character(len=1), intent(in) :: dico
+         character(len=1), intent(in) :: jobg
+         character(len=1), intent(in) :: jobl
+         character(len=1), intent(in) :: fact
       end function riccati_workspace
    end interface
 
    interface
-      module subroutine solve_riccati(A, B, Q, R, dico, scale, rcond, wr, wi, iwork, dwork, bwork, overwrite_a)
-         real(dp), intent(inout), target :: A(:, :)
-         real(dp), intent(inout) :: B(:, :)
-         real(dp), intent(inout) :: Q(:, :)
-         real(dp), intent(inout) :: R(:, :)
-         character(len=1), intent(in) :: dico
-         character(len=1), intent(in) :: scale
-         real(dp), optional, intent(out) :: rcond
+      module subroutine solve_riccati(A, B, Q, R, dico, scale, &
+                                      rcond, wr, wi, iwork, dwork, bwork, overwrite_a)
+         implicit none(type, external)
+         real(dp), intent(inout), target         :: A(:, :)
+         real(dp), intent(inout)                 :: B(:, :)
+         real(dp), intent(inout)                 :: Q(:, :)
+         real(dp), intent(inout)                 :: R(:, :)
+         character(len=1), intent(in)            :: dico
+         character(len=1), intent(in)            :: scale
+         real(dp), optional, intent(out)         :: rcond
          real(dp), optional, intent(out), target :: wr(:), wi(:)
-         integer, optional, intent(out), target :: iwork(:)
+         integer, optional, intent(out), target  :: iwork(:)
          real(dp), optional, intent(out), target :: dwork(:)
-         logical, optional, intent(out), target :: bwork(:)
-         logical, optional, intent(in) :: overwrite_a
+         logical, optional, intent(out), target  :: bwork(:)
+         logical, optional, intent(in)           :: overwrite_a
       end subroutine solve_riccati
    end interface
 
-   interface
-      module function care(A, B, Q, R) result(X)
+   interface care
+      module function care_mimo(A, B, Q, R) result(X)
+         implicit none(type, external)
          real(dp), intent(in) :: A(:, :)
          real(dp), intent(in) :: B(:, :)
          real(dp), intent(in) :: Q(:, :)
          real(dp), intent(in) :: R(:, :)
          real(dp), allocatable :: X(:, :)
-      end function care
-   end interface
+      end function care_mimo
+   end interface care
 
-   interface
-      module function dare(A, B, Q, R) result(X)
+   interface dare
+      module function dare_mimo(A, B, Q, R) result(X)
+         implicit none(type, external)
          real(dp), intent(in) :: A(:, :)
          real(dp), intent(in) :: B(:, :)
          real(dp), intent(in) :: Q(:, :)
          real(dp), intent(in) :: R(:, :)
          real(dp), allocatable :: X(:, :)
-      end function dare
-   end interface
+      end function dare_mimo
+   end interface dare
 end module LightControl
