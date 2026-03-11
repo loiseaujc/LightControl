@@ -14,15 +14,22 @@ contains
    real(dp)                    :: scale, sep, ferr
    integer                     :: iwork(1), info
 
-   ! ----- Instructions -----
-   associate (lda => n, ldu => n, ldc => n)
-      ldwork = -1 ! Workspace query.
-      call sb03md(dico, job, fact, trana, n, a, lda, u, ldu, c, ldc, &
-                  scale, sep, ferr, wr, wi, iwork, dwork, ldwork, info)
+   associate (lda => n, &   ! Leading dimension of A.
+              ldu => n, &   ! Leading dimension of U (Schur orthogonal transformation).
+              ldc => n)     ! Leading dimension C (rhs of Lyapunov equation).
+
+      !> Workspace query.
+      ldwork = -1
+      call sb03md(dico, job, fact, trana, &     ! Setup.
+                  n, a, lda, u, ldu, c, ldc, &  ! Matrices.
+                  scale, sep, ferr, wr, wi, &   ! By-product variables.
+                  iwork, dwork, ldwork, info)   ! Workspaces.
+      !> Optimal workspace size.
       ldwork = int(ceiling(dwork(1), kind=dp))
       call assert(assertion=info == 0, &
                   description="Error during workspace query in sb03md.")
    end associate
+
    end procedure lyapunov_workspace
 
    module procedure solve_lyapunov
@@ -31,8 +38,14 @@ contains
    real(dp)          :: scale_, sep, ferr_
    integer, pointer  :: iwork_(:)
    real(dp), pointer :: dwork_(:), wr_(:), wi_(:)
-   associate (lda => size(A, 1), n => size(A, 2), ldc => size(C, 1), ldu => size(U, 1))
+
+   associate (lda => size(A, 1), &  ! Leading dimension of A.
+              n => size(A, 2), &    ! Number of states.
+              ldc => size(C, 1), &  ! Leading dimension of C.
+              ldu => size(U, 1))    ! Leading dimension of U.
+
       ! ----- Input validation -----
+      !> Check matrices sizes.
       call assert(assertion=lda == n, &
                   description="Matrix A needs to be square.")
       call assert(assertion=ldc == size(C, 2), &
@@ -45,6 +58,7 @@ contains
       call assert(assertion=lda == ldu, &
                   description="Dimensions of A and U are inconsistent.")
 
+      !> Check setup.
       call assert(assertion=any(job == ["x", "s", "b"]), &
                   description="Invalid job. Needs to be 'x', 's', or 'b'.")
       call assert(assertion=any(op == ["n", "t", "c"]), &
@@ -64,10 +78,11 @@ contains
       end if
 
       ! ----- Workspace validation -----
+      !> Is A already factorized?
       fact = merge("f", "n", factorized)
-      !> Workspace query.
-      ldwork = lyapunov_workspace(n, dico, job, fact)
 
+      !> Real workspace.
+      ldwork = lyapunov_workspace(n, dico, job, fact)   ! Workspace query.
       if (present(dwork)) then
          dwork_ => dwork
       else
@@ -76,6 +91,7 @@ contains
       call assert(assertion=size(dwork_) >= ldwork, &
                   description="Dimension of dwork is too small.")
 
+      !> Integer workspace.
       if (present(iwork)) then
          iwork_ => iwork
       else
@@ -85,13 +101,17 @@ contains
                   description="Dimension of iwork is too small.")
 
       !----- Solve Lyapunov equation -----
-      call sb03md(dico, job, fact, op, lda, a, n, u, ldu, c, ldc, &
-                  scale_, sep, ferr_, wr_, wi_, iwork_, dwork_, ldwork, info)
+      call sb03md(dico, job, fact, op, &            ! Setup.
+                  lda, a, n, u, ldu, c, ldc, &      ! Matrices.
+                  scale_, sep, ferr_, wr_, wi_, &   ! By-products.
+                  iwork_, dwork_, ldwork, info)     ! Workspaces.
+
       !----- Optional returns -----
       if (present(scale)) scale = scale_
       if (present(separation)) separation = sep
       if (present(ferr)) ferr = ferr_
    end associate
+
    end procedure solve_lyapunov
 
    !----------------------------------------
@@ -99,31 +119,35 @@ contains
    !----------------------------------------
 
    module procedure lyap
-   logical, parameter          :: factorized = .false.
-   character(len=1), parameter :: dico = "c", job = "x", op = "t"
-   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
-   real(dp)                    :: scale
+   logical, parameter          :: factorized = .false.  ! A is not factorized.
+   character(len=1), parameter :: dico = "c"            ! Continuous-time problem.
+   character(len=1), parameter :: job = "x"             ! Compute only the solution.
+   character(len=1), parameter :: op = "t"              ! A.T @ X + X @ A = C
+   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:) ! Work arrays.
+   real(dp)                    :: scale                             ! Scaling for no-overflow.
    associate (n => size(A, 1))
-      ! ----- Prepare input for slicot -----
+      !> Prepare input for SLICOT.
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
       allocate (x, source=q)
-      ! ----- Solve Lyapunov equation -----
+      !> Solve Lyapunov equation.
       call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure lyap
 
    module procedure dlyap
-   logical, parameter          :: factorized = .false.
-   character(len=1), parameter :: dico = "d", job = "x", op = "t"
-   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
-   real(dp)                    :: scale
+   logical, parameter          :: factorized = .false.  ! A is not factorized.
+   character(len=1), parameter :: dico = "d"            ! Discrete-time problem.
+   character(len=1), parameter :: job = "x"             ! Compute only the solution.
+   character(len=1), parameter :: op = "t"              ! A.T @ X @ A - X = C.
+   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:) ! Work arrays.
+   real(dp)                    :: scale                             ! Scaling for no-overflow.
    associate (n => size(A, 1))
-      ! ----- Prepare input for slicot -----
+      !> Prepare input for SLICOT.
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
       allocate (x, source=q)
-      ! ----- Solve Lyapunov equation -----
+      !> Solve Lyapunov equation.
       call solve_lyapunov(amat, x, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
    end procedure dlyap
@@ -139,25 +163,29 @@ contains
    end procedure ctrb_gramian_siso
 
    module procedure ctrb_gramian_mimo
-   logical, parameter          :: factorized = .false.
-   character(len=1), parameter :: job = "x", op = "n"
-   character(len=1)            :: dico
-   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
-   real(dp)                    :: scale
-   associate (lda => size(a, 1), n => size(a, 2))
-      !----- Input validation ------
+   logical, parameter          :: factorized = .false.  ! A is not factorized.
+   character(len=1), parameter :: job = "x"             ! Compute only the solution.
+   character(len=1), parameter :: op = "n"              ! A @ X + X @ A.T = -B @ B.T
+   character(len=1)            :: dico                  ! Continuous or discrete time?
+   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:) ! Work arrays.
+   real(dp)                    :: scale                             ! Scale for no overflow.
+
+   associate (lda => size(a, 1), &  ! Leading dimension of A.
+              n => size(a, 2))      ! Number of states.
+      !> Input validation
       call assert(assertion=lda == n, &
                   description="Matrix A needs to be square.")
       call assert(assertion=size(b, 1) == n, &
                   description="Leading dimension of B inconsistent with A.")
-      ! ----- Prepare input for slicot -----
+      !> Prepare input for SLICOT
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
-      p = matmul(b, transpose(b))
+      p = matmul(b, transpose(b))   ! NOTE: Replace with appropriate BLAS function.
       dico = "c"; if (present(discrete)) dico = merge("d", "c", discrete)
-      ! ----- Solve Lyapunov equation -----
+      !> Solve Lyapunov equation.
       call solve_lyapunov(amat, p, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
+
    end procedure ctrb_gramian_mimo
 
    module procedure obs_gramian_siso
@@ -167,25 +195,29 @@ contains
    end procedure obs_gramian_siso
 
    module procedure obs_gramian_mimo
-   logical, parameter          :: factorized = .false.
-   character(len=1), parameter :: job = "x", op = "t"
-   character(len=1)            :: dico
-   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:)
-   real(dp)                    :: scale
-   associate (lda => size(a, 1), n => size(a, 2))
-      !----- Input validation ------
+   logical, parameter          :: factorized = .false.  ! A is not factorized.
+   character(len=1), parameter :: job = "x"             ! Compute only the solution.
+   character(len=1), parameter :: op = "t"              ! A.T @ X + X @ A = - C.T @ C
+   character(len=1)            :: dico                  ! Continuous or discrete time?
+   real(dp), allocatable       :: amat(:, :), u(:, :), wr(:), wi(:) ! Work arrays.
+   real(dp)                    :: scale                             ! Scale for no-overflow.
+
+   associate (lda => size(a, 1), &  ! Leading dimension of A.
+              n => size(a, 2))      ! Number of states.
+      !> Input validation.
       call assert(assertion=lda == n, &
                   description="Matrix A needs to be square.")
       call assert(assertion=size(c, 2) == n, &
                   description="Number of columns of C inconsistent with A.")
-      ! ----- Prepare input for slicot -----
+      !> Prepare input for SLICOT.
       allocate (amat, source=a)
       allocate (u(n, n), wr(n), wi(n), source=0.0_dp)
-      q = matmul(transpose(c), c)
+      q = matmul(transpose(c), c)   ! NOTE: Replace with appropriate BLAS function.
       dico = "c"; if (present(discrete)) dico = merge("d", "c", discrete)
-      ! ----- Solve Lyapunov equation -----
+      !> Solve Lyapunov equation.
       call solve_lyapunov(amat, q, u, dico, op, factorized, job, wr=wr, wi=wi, scale=scale)
    end associate
+
    end procedure obs_gramian_mimo
 
 end submodule lightcontrol_lyapunov
