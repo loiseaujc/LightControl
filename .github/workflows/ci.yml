@@ -9,8 +9,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # GFotran compiler.
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 10, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 11, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 12, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 13, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 14, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, compiler-version: 15, extra-packages: "pkg-config openblas"}
+          - {os: windows-latest, compiler: gfortran, compiler-version: 15, extra-packages: "pkg-config openblas"}
+          - {os: macos-latest, compiler: gfortran, compiler-version: 15, extra-packages: "pkg-config openblas"}
+
+          # Intel IFX.
           - {os: ubuntu-latest, compiler: ifx, extra-packages: "mkl"}
-          - {os: ubuntu-latest, compiler: gfortran, extra-packages: "pkg-config openblas"}
     steps:
       - name: Setup Fortran
         uses: gha3mi/setup-fortran-conda@latest
