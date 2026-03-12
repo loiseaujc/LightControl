@@ -20,8 +20,12 @@ jobs:
           - {os: macos-latest, compiler: gfortran, compiler-version: 15, extra-packages: "pkg-config openblas"}
 
           # Intel IFX.
-          - {os: ubuntu-latest, compiler: ifx, extra-packages: "mkl"}
-          - {os: windows-latest, compiler: ifx, extra-packages: "mkl", fpm-version: "0.12.0"}
+          - {os: ubuntu-latest, compiler: ifx, extra-packages: "pkg-config mkl"}
+          - {os: windows-latest, compiler: ifx, extra-packages: "pkg-config mkl", fpm-version: "0.12.0"}
+
+          # Other compilers.
+          - {os: ubuntu-latest,  compiler: flang-new, extra-packages: "pkg-config openblas"}
+          - {os: ubuntu-latest,  compiler: nvfortran, extra-packages: "pkg-config openblas"}
     steps:
       - name: Setup Fortran
         uses: gha3mi/setup-fortran-conda@latest
