@@ -20,9 +20,11 @@ jobs:
           extra-packages: ${{ matrix.extra-packages }}
           fpm-version: ${{ matrix.fpm-version }}
 
-      - name: Run tests
-        run: |
-          fpm test --profile debug --flag "-coverage"
+      - name: Unit tests
+        run: fpm test --profile debug --flag "-coverage"
+
+      - name: Examples  
+        run: fpm run --example --profile debug --flag "-coverage"
 
       - name: Create coverage report
         run: |
