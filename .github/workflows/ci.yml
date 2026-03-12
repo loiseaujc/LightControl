@@ -10,7 +10,7 @@ jobs:
       matrix:
         include:
           - {os: ubuntu-latest, compiler: ifx, extra-packages: "mkl"}
-          - {os: ubuntu-latest, compiler: gfortran, extra-packages: "openblas"}
+          - {os: ubuntu-latest, compiler: gfortran, extra-packages: "pkg-config openblas"}
     steps:
       - name: Setup Fortran
         uses: gha3mi/setup-fortran-conda@latest
