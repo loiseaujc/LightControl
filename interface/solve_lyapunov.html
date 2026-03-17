@@ -1,0 +1,525 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Linear Control Engineering in Fortran.">
+    <meta name="author" content="Jean-Christophe Loiseau" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>solve_lyapunov &ndash; LightControl</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+      <link href="../css/user.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">LightControl </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Overview</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>solve_lyapunov
+      <small>Interface</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a></li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="12.9% of total for procedures.">18 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/LightControl.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/lightcontrol.f90.html'>LightControl.f90</a></li>
+                <li class="breadcrumb-item"><a href='../module/lightcontrol.html'>LightControl</a></li>
+            <li class="breadcrumb-item active" aria-current="page">solve_lyapunov</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+      <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+    <em>None</em>
+
+  </div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+      <h2>interface</h2>
+      <p>### Description</p>
+<p>Low-level wrapper for the <code>sb03md</code> subroutine from <code>slicot</code>. It is intended to
+   solve the real continuous-time Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       \mathrm{op}(A)^{\top} X + X \mathrm{op}(A) = \mathrm{scale} \cdot C
+   </script>
+</p>
+<p>or the real discrete-time Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       \mathrm{op}(A)^{\top} X \mathrm{op}(A) - X = \mathrm{scale} \cdot C
+   </script>
+</p>
+<p>and/or estimate an associated condition number (called separation), where
+   <script type="math/tex">\mathrm{op}(A) = A</script> or <script type="math/tex">A^{\top}</script> and <script type="math/tex">C</script> is symmetric. <script type="math/tex">A</script>, <script type="math/tex">C</script>
+   and <script type="math/tex">X</script> are <script type="math/tex">n \times n</script> matrices, while <script type="math/tex"> 0 < \mathrm{scale} \leq 1</script>
+   is an output set by the routine to avoid overflow in <script type="math/tex"> X </script>.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       call solve_lyapunov(A, C, U, dico, op, factorized, job [, scale, separation, ferr, wr, wi, iwork, dwork])</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank-2 array of size <code>n x n</code>. On entry, it contains
+               the matrix <code>A</code>. If <code>factorized = .true.</code>, then <code>A</code> contains an upper
+               quasi-triangular matrix in Schur canonical form: the elements below
+               the upper Hessenberg part of <code>A</code> are not referenced and <code>A</code> is unchanged
+               on exit. If <code>factorized = .false.</code>, <code>A</code> is overwritten on exit by its
+               Schur canonical form. It is an <code>intent(inout)</code> argument.</p>
+</li>
+<li>
+<p><code>C</code>   :   Double precision rank-2 array of size <code>n x n</code>. On entry, if <code>job = "x"</code>
+               or <code>"b"</code>, it contains the symmetric matrix <code>C</code> and is overwritten
+               by the symmetric solution matrix <code>X</code> on exit. If <code>job = "s"</code>, <code>C</code>
+               is not referenced.</p>
+</li>
+<li>
+<p><code>U</code>   :   Double precision rank-2 array of size <code>n x n</code>. If <code>factorized = .true.</code>,
+               it must contains the orthogonal matrix of the real Schur factorization
+               of <code>A</code> and is unchanged on exit. If <code>factorized = .false.</code>, its input
+               value is irrelevant and will be overwritten by the orthogonal matrix
+               of the real Schur factorization of <code>A</code> on exit. It is an <code>intent(inout)</code>
+               argument.</p>
+</li>
+<li>
+<p><code>dico</code>    :   <code>character(len=1)</code> input argument specifying whether the continuous
+                   (<code>dico = "c"</code>) or discrete (<code>dico = "d"</code>) Lyapunov equation is being
+                   solved. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>op</code>  :   <code>character(len=1)</code> input specifying the form of <script type="math/tex">\mathrm{op}(A)</script> to
+               be used as follows:
+               - <code>"n"</code>: <script type="math/tex">\mathrm{op}(A) = A</script> (no transpose).
+               - <code>"t"</code>: <script type="math/tex">\mathrm{op}(A) = \A^{\top}</script> (transpose).</p>
+</li>
+<li>
+<p><code>factorized</code>  :   Boolean flag determining whether the input matrix <code>A</code> has
+                       already been factorized or not. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>job</code> :   <code>character(len=1)</code> input specifying the computation to be performed as
+               follows:
+               - <code>"x"</code>: compute the solution only.
+               - <code>"s"</code>: compute the separation only.
+               - <code>"b"</code>: compute both the solution and the separation.</p>
+</li>
+<li>
+<p><code>scale</code> (optional)    :   double precision floating point number returned by
+                               <code>sb03md</code>. It is set between 0 and 1 to prevent the
+                               solution overflowing. It is an <code>intent(out)</code> argument.</p>
+</li>
+<li>
+<p><code>separation</code> (optional)   :   double precision floating point number returned by
+                                   <code>sb03md</code> if <code>job = "s"</code> or <code>job = "b"</code>. It is an
+                                   <code>intent(out)</code> argument.</p>
+</li>
+<li>
+<p><code>ferr</code> (optional) :   double precision floating point number returned by <code>sb03md</code>.
+                           It is an estimated forward error bound for the solution <code>X</code>.
+                           If <code>job = "x"</code> or <code>job ="s"</code>, it is not referenced.</p>
+</li>
+<li>
+<p><code>wr</code>, <code>wi</code> (optional) :   double precision rank 1 array of size <code>n</code>.
+                               If <code>factorized = .false.</code>, they contain on exit the
+                               real and imaginary parts of the eigenvalues of <code>A</code>.</p>
+</li>
+<li>
+<p><code>iwork</code> (optional)    :   integer array of dimension <code>n**2</code>. It is not referenced
+                               if <code>job = "x"</code>.</p>
+</li>
+<li>
+<p><code>dwork</code> (optional)    :   double precision array of size <code>ldwork</code>, where <code>ldwork</code>
+                               is computed with the <code>lyapunov_workspace</code> function.
+double precision workspace array.</p>
+</li>
+</ul>
+      <br>
+      <h2>public module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)  
+</h2>
+
+    
+
+    <h3>Arguments</h3>
+        <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>C</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of the system, dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>U</strong>(:,:)</td>
+            <td>
+                <p>On entry: right-hand side symmetric matrix of dimension <code>n x n</code>.
+On exit: Overwritten by the solution to the Lyapunov equation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dico"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dico</strong></td>
+            <td>
+                <p>On entry: If <code>factorized = .true.</code>, it must contains the orthogonal matrix of the
+          real Schur form of <code>A</code> and is unchanged on exit. If <code>factorized = .false.</code>
+          its values on entry are irrelevant.
+On exit: If <code>factorized = .true.</code>, it is unchanged. If <code>factorized = .false.</code>, it
+         will contain the orthgonal matrix of the real Schur factorization of <code>A</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                <p>Whether the continuous (<code>dico = "c"</code>) or discrete (<code>dico = "d"</code>) time Lyapunov
+is being solved.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factorized"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factorized</strong></td>
+            <td>
+                <p>Whether <code>op(A) = A</code> (<code>op = "n"</code>) or <code>op(A) = transpose(A)</code> (<code>op = "t"</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-job"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>job</strong></td>
+            <td>
+                <p>Whether <code>A</code> has already been factorized to its real Schur form.
+If <code>factorized = .true.</code>, <code>U</code> must contain the associated orthogonal transformation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+                <p>Input specifying the computation to be performed as follows:
+               - <code>"x"</code>: compute the solution only.
+               - <code>"s"</code>: compute the separation only.
+               - <code>"b"</code>: compute both the solution and the separation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-separation"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>separation</strong></td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is set
+between 0 and 1 to prevent the solution overflowing.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ferr"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ferr</strong></td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code> if <code>job = "s"</code> or
+<code>job = "b"</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wr"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wr</strong>(:)</td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is an estimated
+forward error bound for the solution <code>X</code>. If <code>job = "x"</code> or <code>job ="s"</code>,
+it is not referenced.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wi"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wi</strong>(:)</td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is an estimated
+forward error bound for the solution <code>X</code>. If <code>job = "x"</code> or <code>job ="s"</code>,
+it is not referenced.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>iwork</strong>(:)</td>
+            <td>
+                <p>If <code>factorized = .false.</code>, they contain on exit the real and imaginary parts
+of the eigenvalues of <code>A</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dwork"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>dwork</strong>(:)</td>
+            <td>
+                <p>Integer workspace array.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <br>
+
+ </div>
+</div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              LightControl
+ was developed by Jean-Christophe Loiseau<br>              &copy; 2026 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>

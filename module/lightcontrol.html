@@ -1,0 +1,2044 @@
+<!-- -*- mode: jinja2 -*- -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Linear Control Engineering in Fortran.">
+    <meta name="author" content="Jean-Christophe Loiseau" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>LightControl &ndash; LightControl</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link href="../css/fontawesome.min.css" rel="stylesheet">
+    <link href="../css/brands.min.css" rel="stylesheet">
+    <link href="../css/regular.min.css" rel="stylesheet">
+    <link href="../css/solid.min.css" rel="stylesheet">
+    <link href="../css/v4-font-face.min.css" rel="stylesheet">
+    <link href="../css/v4-shims.min.css" rel="stylesheet">
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { equationNumbers: { autoNumber: "AMS" } }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async
+            integrity="sha256-DViIOMYdwlM/axqoGDPeUyf0urLoHMN4QACBKyB58Uw=" crossorigin="anonymous"></script>
+    <!-- Other scripts and stylesheets -->
+    <link href="../css/local.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+      <link href="../css/user.css" rel="stylesheet">
+    <script src="../js/svg-pan-zoom.min.js"></script>
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="container-fluid mb-sm-4 mb-xl-2">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="../index.html">LightControl </a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar"
+                  aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon">
+          </button>
+
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="../page/index.html">Overview</a></li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../lists/files.html">Source Files</a>
+                  </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/modules.html">Modules</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../lists/procedures.html">Procedures</a>
+                </li>
+            </ul>
+              <div class="d-flex align-items-end flex-grow-1">
+                <form action="../search.html" role="search" class="ms-auto">
+                  <input type="text" class="form-control" aria-label="Search" placeholder="Search" name="q" id="tipue_search_input" autocomplete="off" required>
+                </form>
+              </div>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+    </div>
+
+    <div class="container">
+  <div class="row">
+    <h1>LightControl
+      <small>Module</small>
+      
+    </h1>
+      <div class="container p-2 mb-4 bg-light border rounded-3">
+    <div class="row align-items-center justify-content-between" id="info-bar">
+      <div class="col">
+        <ul class="list-inline" style="margin-bottom:0px;display:inline">
+            <li class="list-inline-item" id="meta-license"><i class="fa fa-legal"></i> <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a></li>
+
+            <li class="list-inline-item" id="statements"><i class="fa fa-list-ol"></i>
+              <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true"
+                 title="36.8% of total for modules and submodules.">149 statements</a>
+            </li>
+
+            <li class="list-inline-item" id="source-file">
+              <i class="fa fa-code"></i>
+              <a href="../src/LightControl.f90"> Source File</a>
+            </li>
+        </ul>
+      </div>
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-end mb-0">
+                <li class="breadcrumb-item"><a href='../sourcefile/lightcontrol.f90.html'>LightControl.f90</a></li>
+            <li class="breadcrumb-item active" aria-current="page">LightControl</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Enable Bootstrap tooltips
+    (function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    })();
+  </script>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+        <div id="sidebar">
+      <h3>Contents</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+      <div class="card mb-4">
+      <a data-bs-toggle="collapse" href="#inters-0"
+         aria-expanded="false" aria-controls="inters-0">
+         <h4 class="card-header bg-primary text-white">Interfaces</h4>
+      </a>
+      <div id="inters-0" class="collapse">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-care">care</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-ctrb_gramian">ctrb_gramian</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-dare">dare</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-dlyap">dlyap</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-lyap">lyap</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-lyapunov_workspace">lyapunov_workspace</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-obs_gramian">obs_gramian</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-riccati_workspace">riccati_workspace</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-solve_lyapunov">solve_lyapunov</a>
+            <a class="list-group-item" href="../module/lightcontrol.html#interface-solve_riccati">solve_riccati</a>
+        </div>
+      </div>
+    </div>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  </div>
+
+    </div>
+
+    <div class="col-md-9" id='text'>
+      <p>Lyapunov equations.
+Riccati equations.</p>
+<br>          <div class="card mb-4">
+      <h3 class="card-header card-title bg-light">Uses</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                  <li class="list-inline-item">stdlib_kinds</li>
+                  <li class="list-inline-item">assert_m</li>
+                  <li class="list-inline-item">stdlib_optval</li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+          <div class="card">
+      <h3 class="card-header card-title bg-light">Used by</h3>
+      <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <ul class="list-inline">
+                <li class="list-inline-item"><h5>Descendants:</h5></li>
+                  <li class="list-inline-item"><a href='lightcontrol_lyapunov.html'>lightcontrol_lyapunov</a></li>
+                  <li class="list-inline-item"><a href='lightcontrol_riccati.html'>lightcontrol_riccati</a></li>
+              </ul>
+            </li>
+        </ul>
+      </div>
+    </div>
+
+      <br>
+
+
+
+
+        <section>
+          <h2>Interfaces</h2>
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-care"></span>
+      <h3>public        interface <a href='../interface/care.html'>care</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module function care_mimo(A, B, Q, R) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~10"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>B</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>R</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function care_siso(A, b, Q, r) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~9"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-ctrb_gramian"></span>
+      <h3>public        interface <a href='../interface/ctrb_gramian.html'>ctrb_gramian</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>### Description</p>
+<p>Given an LTI system in state-space form</p>
+<p>
+<script type="math/tex; mode=display">
+       \begin{aligned}
+           \sigma x & = Ax + Bu \\
+           y & = Cx + Du
+       \end{aligned}
+   </script>
+</p>
+<p>where it is assumed that <script type="math/tex">A</script> is stable, and <script type="math/tex">\sigma</script> denotes either
+   the time-derivative (continuous-time) or shift operator (discrete-time),
+   this function computes the corresponding controllability gramian. This
+   gramian is solution to</p>
+<p>
+<script type="math/tex; mode=display">
+       AP + PA^{\top} = - BB^\top
+   </script>
+</p>
+<p>for a continuous-time system, and</p>
+<p>
+<script type="math/tex; mode=display">
+       APA^{\top} - P = -BB^\top
+   </script>
+</p>
+<p>for a discrete-time one.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       P = ctrb_gramian(A, B)</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank 2 array of dimension <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>B</code>   :   Double precision rank 1 array of dimension <code>n</code>, or rank 2 array of
+               dimension <code>n x m</code>. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>P</code>   :   Double precision rank 2 array.
+               Returned by the function.
+Controllability gramian of the system, dimension <code>n x n</code>.</p>
+</li>
+</ul>
+<p>Controllability gramian of the system, dimension <code>n x n</code>.</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module function ctrb_gramian_mimo(A, B, discrete) result(P)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>B</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-discrete~2"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>discrete</strong></td>
+            <td>
+                <p>Input-to-state matrix for a multiple-input system, dimension <code>n x k</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Whether the system is discrete-time (<code>discrete = .true.</code>) or
+continuous-time (<code>discrete = .false.</code>) one. Default is <code>discrete = .false.</code></p>
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function ctrb_gramian_siso(A, b, discrete) result(P)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:)</td>
+            <td>
+                <p>Dynamics matrix of dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-discrete"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>discrete</strong></td>
+            <td>
+                <p>Input-to-state matrix for a single-input system, dimension <code>n</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Whether the system is discrete-time (<code>discrete = .true.</code>) or
+continuous-time (<code>discrete = .false.</code>) one. Default is <code>discrete = .false.</code></p>
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-dare"></span>
+      <h3>public        interface <a href='../interface/dare.html'>dare</a> 
+      </h3>
+    </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module function dare_mimo(A, B, Q, R) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~12"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~4"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>B</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~9"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>R</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function dare_siso(A, b, Q, r) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~11"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~3"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>b</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~8"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>r</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-dlyap"></span>
+      <h3>        interface
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>### Description</p>
+<p>Solve the (discrete-time) Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       AXA^{\top} - X = Q
+   </script>
+</p>
+<p>where both <script type="math/tex">A</script> and <script type="math/tex">Q</script> are <script type="math/tex">n \times n</script> matrices.
+   The matrix <script type="math/tex">Q</script> morever needs to be symmetric (<script type="math/tex">C = C^\top</script>).
+   The solution matrix <script type="math/tex"> X </script> is an <script type="math/tex">n \times n</script> symmetric positive definite matrix.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       X = dlyap(A, Q)</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>Q</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>X</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               Returned by the function.
+Solution of the Lyapunov equation, dimension <code>n x n</code>.</p>
+</li>
+</ul>
+      </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module function dlyap(A, Q) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Symmetrix matrix of dimension <code>n x n</code> corresponding to the right-hande
+side of the Lyapunov equation.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-lyap"></span>
+      <h3>        interface
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>### Description</p>
+<p>Solve the (continuous-time) Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       AX + XA^{\top} = Q
+   </script>
+</p>
+<p>where both <script type="math/tex">A</script> and <script type="math/tex">Q</script> are <script type="math/tex">n \times n</script> matrices.
+   The matrix <script type="math/tex">Q</script> morever needs to be symmetric (<script type="math/tex">C = C^\top</script>).
+   The solution matrix <script type="math/tex"> X </script> is an <script type="math/tex">n \times n</script> symmetric positive definite matrix.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       X = lyap(A, Q)</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>Q</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>X</code>   :   Double precision rank 2 array of size <code>n x n</code>.
+               Returned by the function.
+Solution of the Lyapunov equation, dimension <code>n x n</code>.</p>
+</li>
+</ul>
+      </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module function lyap(A, Q) result(X)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Symmetric matrix of dimension <code>n x n</code> corresponding to the right-hand
+side of the Lyapunov equation.</p>
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-lyapunov_workspace"></span>
+      <h3>        interface
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>Whether A is already in real Schur form or not.</p>
+      </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module function lyapunov_workspace(n, dico, job, fact) result(ldwork)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dico~2"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dico</strong></td>
+            <td>
+                <p>Order of the system.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-job~2"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>job</strong></td>
+            <td>
+                <p>Discrete or continuous time Lyapunov equation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fact"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fact</strong></td>
+            <td>
+                <p>Computation to be performed:</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-obs_gramian"></span>
+      <h3>public        interface <a href='../interface/obs_gramian.html'>obs_gramian</a> 
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>### Description</p>
+<p>Given an LTI system in state-space form</p>
+<p>
+<script type="math/tex; mode=display">
+       \begin{aligned}
+           \sigma x & = Ax + Bu \\
+           y & = Cx + Du
+       \end{aligned}
+   </script>
+</p>
+<p>where it is assumed that <script type="math/tex">A</script> is stable, and <script type="math/tex">\sigma</script> denotes either
+   the time-derivative (continuous-time) or shift operator (discrete-time),
+   this function computes the corresponding observability gramian. This
+   gramian is solution to</p>
+<p>
+<script type="math/tex; mode=display">
+       A^{\top}Q + QA = - C^{\top}C
+   </script>
+</p>
+<p>for a continuous-time system, and</p>
+<p>
+<script type="math/tex; mode=display">
+       A^{\top}QA - Q = -C^{\top}C
+   </script>
+</p>
+<p>for a discrete-time one.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       Q = obs_gramian(A, C)</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank 2 array of dimension <code>n x n</code>.
+               It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>C</code>   :   Double precision rank 1 array of dimension <code>n</code>, or rank 2 array
+               of dimension <code>m x n</code>. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>P</code>   :   Double precision rank 2 array.
+               Returned by the function.
+Observablity gramian of the system, dimension <code>n x n</code>.</p>
+</li>
+</ul>
+<p>Observablity gramian of the system, dimension <code>n x n</code>.</p>
+      </div>
+    <ul class="list-group">
+          <li class="list-group-item">
+                <h3>
+    private module function obs_gramian_mimo(A, C, discrete) result(Q)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~6"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>C</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of the system, dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-discrete~4"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>discrete</strong></td>
+            <td>
+                <p>Measurement matrix of the system for multiple-output system, dimension <code>k x n</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Whether the system is discrete-time (<code>discrete = .true.</code>) or
+continuous-time (<code>discrete = .false.</code>) one. Default is <code>discrete = .false.</code></p>
+
+          </li>
+          <li class="list-group-item">
+                <h3>
+    private module function obs_gramian_siso(A, c, discrete) result(Q)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~5"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c"></span>
+              real(kind=dp),
+            </td>
+<td>intent(in),</td>
+              <td></td>            <td>
+              contiguous, target
+            </td>
+            <td>::</td>
+            <td><strong>c</strong>(:)</td>
+            <td>
+                <p>Dynamics matrix of the system, dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-discrete~3"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>discrete</strong></td>
+            <td>
+                <p>Measurement matrix of the system for single-output system, dimension <code>n</code>.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>real(kind=dp), allocatable, (:,:)</small>
+    </h4>
+    <p>Whether the system is discrete-time (<code>discrete = .true.</code>) or
+continuous-time (<code>discrete = .false.</code>) one. Default is <code>discrete = .false.</code></p>
+
+          </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-riccati_workspace"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module function riccati_workspace(m, n, dico, jobg, jobl, fact) result(ldwork)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-m"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>m</strong></td>
+            <td>
+                <p>Number of states.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-n~2"></span>
+              integer,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>n</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dico~3"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dico</strong></td>
+            <td>
+                <p>Number of inputs.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jobg"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jobg</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-jobl"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>jobl</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-fact~2"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>fact</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <h4>
+    Return Value
+    <small>integer</small>
+    </h4>
+    
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-solve_lyapunov"></span>
+      <h3>        interface
+      </h3>
+    </div>
+      <div class="card-body">
+        <p>### Description</p>
+<p>Low-level wrapper for the <code>sb03md</code> subroutine from <code>slicot</code>. It is intended to
+   solve the real continuous-time Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       \mathrm{op}(A)^{\top} X + X \mathrm{op}(A) = \mathrm{scale} \cdot C
+   </script>
+</p>
+<p>or the real discrete-time Lyapunov equation</p>
+<p>
+<script type="math/tex; mode=display">
+       \mathrm{op}(A)^{\top} X \mathrm{op}(A) - X = \mathrm{scale} \cdot C
+   </script>
+</p>
+<p>and/or estimate an associated condition number (called separation), where
+   <script type="math/tex">\mathrm{op}(A) = A</script> or <script type="math/tex">A^{\top}</script> and <script type="math/tex">C</script> is symmetric. <script type="math/tex">A</script>, <script type="math/tex">C</script>
+   and <script type="math/tex">X</script> are <script type="math/tex">n \times n</script> matrices, while <script type="math/tex"> 0 < \mathrm{scale} \leq 1</script>
+   is an output set by the routine to avoid overflow in <script type="math/tex"> X </script>.</p>
+<p>### Syntax</p>
+<p><code>fortran
+       call solve_lyapunov(A, C, U, dico, op, factorized, job [, scale, separation, ferr, wr, wi, iwork, dwork])</code></p>
+<p>### Arguments</p>
+<ul>
+<li>
+<p><code>A</code>   :   Double precision rank-2 array of size <code>n x n</code>. On entry, it contains
+               the matrix <code>A</code>. If <code>factorized = .true.</code>, then <code>A</code> contains an upper
+               quasi-triangular matrix in Schur canonical form: the elements below
+               the upper Hessenberg part of <code>A</code> are not referenced and <code>A</code> is unchanged
+               on exit. If <code>factorized = .false.</code>, <code>A</code> is overwritten on exit by its
+               Schur canonical form. It is an <code>intent(inout)</code> argument.</p>
+</li>
+<li>
+<p><code>C</code>   :   Double precision rank-2 array of size <code>n x n</code>. On entry, if <code>job = "x"</code>
+               or <code>"b"</code>, it contains the symmetric matrix <code>C</code> and is overwritten
+               by the symmetric solution matrix <code>X</code> on exit. If <code>job = "s"</code>, <code>C</code>
+               is not referenced.</p>
+</li>
+<li>
+<p><code>U</code>   :   Double precision rank-2 array of size <code>n x n</code>. If <code>factorized = .true.</code>,
+               it must contains the orthogonal matrix of the real Schur factorization
+               of <code>A</code> and is unchanged on exit. If <code>factorized = .false.</code>, its input
+               value is irrelevant and will be overwritten by the orthogonal matrix
+               of the real Schur factorization of <code>A</code> on exit. It is an <code>intent(inout)</code>
+               argument.</p>
+</li>
+<li>
+<p><code>dico</code>    :   <code>character(len=1)</code> input argument specifying whether the continuous
+                   (<code>dico = "c"</code>) or discrete (<code>dico = "d"</code>) Lyapunov equation is being
+                   solved. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>op</code>  :   <code>character(len=1)</code> input specifying the form of <script type="math/tex">\mathrm{op}(A)</script> to
+               be used as follows:
+               - <code>"n"</code>: <script type="math/tex">\mathrm{op}(A) = A</script> (no transpose).
+               - <code>"t"</code>: <script type="math/tex">\mathrm{op}(A) = \A^{\top}</script> (transpose).</p>
+</li>
+<li>
+<p><code>factorized</code>  :   Boolean flag determining whether the input matrix <code>A</code> has
+                       already been factorized or not. It is an <code>intent(in)</code> argument.</p>
+</li>
+<li>
+<p><code>job</code> :   <code>character(len=1)</code> input specifying the computation to be performed as
+               follows:
+               - <code>"x"</code>: compute the solution only.
+               - <code>"s"</code>: compute the separation only.
+               - <code>"b"</code>: compute both the solution and the separation.</p>
+</li>
+<li>
+<p><code>scale</code> (optional)    :   double precision floating point number returned by
+                               <code>sb03md</code>. It is set between 0 and 1 to prevent the
+                               solution overflowing. It is an <code>intent(out)</code> argument.</p>
+</li>
+<li>
+<p><code>separation</code> (optional)   :   double precision floating point number returned by
+                                   <code>sb03md</code> if <code>job = "s"</code> or <code>job = "b"</code>. It is an
+                                   <code>intent(out)</code> argument.</p>
+</li>
+<li>
+<p><code>ferr</code> (optional) :   double precision floating point number returned by <code>sb03md</code>.
+                           It is an estimated forward error bound for the solution <code>X</code>.
+                           If <code>job = "x"</code> or <code>job ="s"</code>, it is not referenced.</p>
+</li>
+<li>
+<p><code>wr</code>, <code>wi</code> (optional) :   double precision rank 1 array of size <code>n</code>.
+                               If <code>factorized = .false.</code>, they contain on exit the
+                               real and imaginary parts of the eigenvalues of <code>A</code>.</p>
+</li>
+<li>
+<p><code>iwork</code> (optional)    :   integer array of dimension <code>n**2</code>. It is not referenced
+                               if <code>job = "x"</code>.</p>
+</li>
+<li>
+<p><code>dwork</code> (optional)    :   double precision array of size <code>ldwork</code>, where <code>ldwork</code>
+                               is computed with the <code>lyapunov_workspace</code> function.
+double precision workspace array.</p>
+</li>
+</ul>
+      </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module subroutine solve_lyapunov(A, C, U, dico, op, factorized, job, scale, separation, ferr, wr, wi, iwork, dwork)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~7"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-c~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>C</strong>(:,:)</td>
+            <td>
+                <p>Dynamics matrix of the system, dimension <code>n x n</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-u"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>U</strong>(:,:)</td>
+            <td>
+                <p>On entry: right-hand side symmetric matrix of dimension <code>n x n</code>.
+On exit: Overwritten by the solution to the Lyapunov equation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dico"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dico</strong></td>
+            <td>
+                <p>On entry: If <code>factorized = .true.</code>, it must contains the orthogonal matrix of the
+          real Schur form of <code>A</code> and is unchanged on exit. If <code>factorized = .false.</code>
+          its values on entry are irrelevant.
+On exit: If <code>factorized = .true.</code>, it is unchanged. If <code>factorized = .false.</code>, it
+         will contain the orthgonal matrix of the real Schur factorization of <code>A</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-op"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>op</strong></td>
+            <td>
+                <p>Whether the continuous (<code>dico = "c"</code>) or discrete (<code>dico = "d"</code>) time Lyapunov
+is being solved.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-factorized"></span>
+              logical,
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>factorized</strong></td>
+            <td>
+                <p>Whether <code>op(A) = A</code> (<code>op = "n"</code>) or <code>op(A) = transpose(A)</code> (<code>op = "t"</code>).</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-job"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>job</strong></td>
+            <td>
+                <p>Whether <code>A</code> has already been factorized to its real Schur form.
+If <code>factorized = .true.</code>, <code>U</code> must contain the associated orthogonal transformation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+                <p>Input specifying the computation to be performed as follows:
+               - <code>"x"</code>: compute the solution only.
+               - <code>"s"</code>: compute the separation only.
+               - <code>"b"</code>: compute both the solution and the separation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-separation"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>separation</strong></td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is set
+between 0 and 1 to prevent the solution overflowing.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-ferr"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>ferr</strong></td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code> if <code>job = "s"</code> or
+<code>job = "b"</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wr"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wr</strong>(:)</td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is an estimated
+forward error bound for the solution <code>X</code>. If <code>job = "x"</code> or <code>job ="s"</code>,
+it is not referenced.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wi"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wi</strong>(:)</td>
+            <td>
+                <p>double precision floating point number returned by <code>sb03md</code>. It is an estimated
+forward error bound for the solution <code>X</code>. If <code>job = "x"</code> or <code>job ="s"</code>,
+it is not referenced.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>iwork</strong>(:)</td>
+            <td>
+                <p>If <code>factorized = .false.</code>, they contain on exit the real and imaginary parts
+of the eigenvalues of <code>A</code>.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dwork"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>dwork</strong>(:)</td>
+            <td>
+                <p>Integer workspace array.</p>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+              <div class="card">
+    <div class="card-header bg-light codesum">
+      <span class="anchor" id="interface-solve_riccati"></span>
+      <h3>        interface
+      </h3>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item">
+              <h3>
+    public module subroutine solve_riccati(A, B, Q, R, dico, scale, rcond, wr, wi, iwork, dwork, bwork, overwrite_a)  
+
+    </h3>
+  
+
+  <h4>Arguments</h4>
+      <table class="table table-striped varlist">
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+<th scope="col">Intent</th><th scope="col">Optional</th>        <th scope="col">Attributes</th>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-a~8"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout),</td>
+              <td></td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>A</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-b~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>B</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-q~5"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>Q</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-r"></span>
+              real(kind=dp),
+            </td>
+<td>intent(inout)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>R</strong>(:,:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dico~4"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>dico</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-scale~2"></span>
+              character(len=1),
+            </td>
+<td>intent(in)</td>
+              <td></td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>scale</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-rcond"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>rcond</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wr~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wr</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-wi~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>wi</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-iwork~2"></span>
+              integer,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>iwork</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-dwork~2"></span>
+              real(kind=dp),
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>dwork</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-bwork"></span>
+              logical,
+            </td>
+<td>intent(out),</td>
+              <td>optional,</td>            <td>
+              target
+            </td>
+            <td>::</td>
+            <td><strong>bwork</strong>(:)</td>
+            <td>
+                
+            </td>
+        </tr>
+        <tr>
+            <td>
+              <span class="anchor" id="variable-overwrite_a"></span>
+              logical,
+            </td>
+<td>intent(in),</td>
+              <td>optional</td>            <td>
+              
+            </td>
+            <td>::</td>
+            <td><strong>overwrite_a</strong></td>
+            <td>
+                
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+        </li>
+    </ul>
+  </div>
+
+        </section>
+        <br>
+
+
+
+
+
+
+
+    </div>
+  </div>
+
+      <hr>
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col">
+            <p>
+              LightControl
+ was developed by Jean-Christophe Loiseau<br>              &copy; 2026 <a rel="license" href="http://www.freebsd.org/copyright/freebsd-doc-license.html">FreeBSD Documentation License</a>
+</p>
+          </div>
+          <div class="col">
+            <p class="text-end">
+              Documentation generated by
+              <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            </p>
+          </div>
+        </div>
+        <br>
+      </div> <!-- /container -->
+    </footer>
+  </body>
+</html>
